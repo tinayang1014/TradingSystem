@@ -8,10 +8,14 @@
 import asyncio
 import websockets
 import json
+import time
 
 class Socket:
-    def __init__(self, stock):
+    def __init__(self, stock, db):
         self.stock = stock
+        self.connection = db
+        # print("in socket init")
+        asyncio.set_event_loop(asyncio.new_event_loop())
         asyncio.get_event_loop().run_until_complete(self.start_gdax_websocket())
     
     def organize_message(self, message):
@@ -28,16 +32,25 @@ class Socket:
             best_ask = message['best_ask']
             value = (time, open, price, best_bid, best_ask)
             return value
-        
+    
+    def insert_price(self, value):
+        ## insert updated price in database
+        ## user Database class with insert_data() function
+        pass
 
     async def start_gdax_websocket(self):
+        # print("in start gdax websocket")
         async with websockets.connect('wss://ws-feed.pro.coinbase.com') as websocket:
+            # print("1")
             await websocket.send(self.build_request())
+            await asyncio.sleep(10)
+            # print("2")
             async for m in websocket:
+                # print("3")
                 # print(m)
                 value = self.organize_message(m)
                 print(value)
-                # await asyncio.sleep(10)
+                self.insert_price(value)
                 
     
     def build_request(self):

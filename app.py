@@ -18,10 +18,22 @@ app = Flask(__name__)
 
 # export FLASK_DEBUG=1
 
+db = Database.Database()
+
+@app.before_first_request
+def activate_job():
+    # print("in activate_job")
+    # def run_job():
+    #     while True:
+    #         Socket.Socket("BTC-USD")
+    #         time.sleep(3)
+
+    for i in ["BTC-USD", "LTC-USD", "ETH-USD"]:
+        thread = Thread(target=Socket.Socket, args=(i,db,))
+        thread.start()
 
 @app.route('/')
 def main():
-    db = Database.Database()
     sym = db.get_data("select * from symbol")
     db.close()
     return render_template('index.html', symbol = sym)
@@ -88,9 +100,9 @@ def protfoilo():
 #     print('Client disconnected')
 
 if __name__ == '__main__':
-    app.run(threaded=True)
-    t = Thread(target=Socket.Socket, args=('BTC-USD'))
-    t.start()
+    app.run(threaded = True)
+    # t = Thread(target=Socket.Socket, args=('BTC-USD'))
+    # t.start()
     # socketio.run(app, debug=True)
     # # socket = Socket.Socket("BTC-USD")
     # wst = threading.Thread(target=Socket.Socket, args=("BTC-USD",))
