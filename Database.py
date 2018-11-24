@@ -26,9 +26,11 @@ class Database:
 
     def insert_data(self, table, colName, value):
         cursor = self.connection.cursor()
-        sql = "INSERT INTO %s (%s) VALUES (%s)"%(table, colName, value)
+        # print(value)
+        sql = "INSERT INTO %s (%s) VALUES %s"%(table, colName, value)
+        # print(sql)
         cursor.execute(sql)
-        connection.commit()
+        self.connection.commit()
 
     def close(self):
         self.connection.close()

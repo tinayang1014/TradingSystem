@@ -23,13 +23,13 @@ db = Database.Database()
 @app.before_first_request
 def activate_job():
     # print("in activate_job")
-    # def run_job():
-    #     while True:
-    #         Socket.Socket("BTC-USD")
-    #         time.sleep(3)
+    def run_job(stock):
+        while True:
+            s = Socket.Socket(stock)
+            time.sleep(30)
 
     for i in ["BTC-USD", "LTC-USD", "ETH-USD"]:
-        thread = Thread(target=Socket.Socket, args=(i,db,))
+        thread = Thread(target=run_job, args=(i,))
         thread.start()
 
 @app.route('/')

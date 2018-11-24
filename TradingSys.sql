@@ -23,13 +23,13 @@ use TradingSys;
 --     currency_id int,
 --     time_stamp TIMESTAMP,
 --     open float,
---     high float,
---     low float,
---     close float,
---     volume int,
+--     price float,
+--     best_bid float,
+--     best_ask float,
 --     PRIMARY KEY(price_id)
 -- );
 
+select * from price;
 
 -- create table user
 -- 	(user_id int NOT NULL auto_increment,
@@ -38,9 +38,8 @@ use TradingSys;
 --     primary key(user_id)
 -- );
 
-insert into user(login, password)
-values ('guest', 'abc');
-
+-- insert into user(login, password)
+-- values ('guest', 'abc');
 
 -- create table transaction
 -- 	(transaction_id int NOT NULL auto_increment,
@@ -72,4 +71,4 @@ values ('guest', 'abc');
 -- from price
 -- where currency_id = 1);
 
--- select * from price;
+
