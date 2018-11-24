@@ -16,7 +16,6 @@ class Socket:
     def __init__(self, stock):
         self.stock = stock
         self.db = Database.Database()
-        # self.__db_connection = self.db.connection
         # print("in socket init")
         asyncio.set_event_loop(asyncio.new_event_loop())
         asyncio.get_event_loop().run_until_complete(self.start_gdax_websocket())
@@ -35,7 +34,6 @@ class Socket:
             time = message['time']
             ####### Handle time format
             time = dateutil.parser.parse(time).strftime('%Y-%m-%d %H:%M:%S')
-            ######^^^^^^^^^^^^^^^^^^^^
             open = float(message['open_24h'])
             price = float(message['price'])
             best_bid = float(message['best_bid'])

@@ -13,6 +13,8 @@ class Database:
     '''
     def __init__(self):
         ## Connect the database once the class created
+        #####################################
+        ###### Change Before run ############
         self.connection = mc.connect(user='root',
             password = 'tinayang',
             host = '127.0.0.1',

@@ -38,6 +38,10 @@ def activate_job():
 
 @app.route('/')
 def main():
+    '''
+    SignUp
+    LogIn
+    '''
     sym = db.get_data("select * from symbol")
     db.close()
     return render_template('index.html', symbol = sym)
