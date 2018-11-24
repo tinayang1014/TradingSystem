@@ -29,7 +29,6 @@ use TradingSys;
 --     PRIMARY KEY(price_id)
 -- );
 
-select * from price;
 
 -- create table user
 -- 	(user_id int NOT NULL auto_increment,

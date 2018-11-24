@@ -20,6 +20,8 @@ app = Flask(__name__)
 
 db = Database.Database()
 
+#####################################
+###### Comment Out Before Run #######
 @app.before_first_request
 def activate_job():
     # print("in activate_job")
@@ -31,6 +33,8 @@ def activate_job():
     for i in ["BTC-USD", "LTC-USD", "ETH-USD"]:
         thread = Thread(target=run_job, args=(i,))
         thread.start()
+
+#####################################
 
 @app.route('/')
 def main():
