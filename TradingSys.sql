@@ -60,6 +60,7 @@ use TradingSys;
 --     primary key(portfolio_id)
 -- );
 
+select * from price;
 
 
 # update real time currency price
