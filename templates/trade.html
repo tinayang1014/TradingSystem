@@ -3,23 +3,120 @@
 <html lang="en">
   <head>
     <title>Python Flask Bucket List App</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,800">
+    <link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
 
-    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
-
-   
   </head>
 
   <body>
 
-    <h1>Trade Page</h1>
-    <h2>Created by: T, J, D</h2>
+    <!-- <h1>Trade Page</h1>
+    <h2>Created by: Josephine</h2> -->
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" >CryptoTrading</a>
+          <!--Add here -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      <!--Add here -->
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav ml-auto">
+                  <li class="nav-item">
+                      <a class="nav-link" href="/portfolio">My Portfolio</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/trade">Trade</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="/login">Sign Out</a>
+                  </li>
+              </ul>
+          </div>
+      </nav>
+      <div class="jumbotron">
+              <h1 class="display-4">Online Crypto Trading Platform.</h1>
+              <p class="lead">This online Crypto Trading platform allows users to trade three popular crypto currencies: Bitcoin,Litecoin,Ethereum. </p>
+              <p class="lead">The users can click into different currencies to trade</p>
 
-      <footer class="footer">
-        <p>&copy; Company 2015</p>
-      </footer>
+      </div>
+  
+
+    <div class="row">
+          <div class="col">
+              <div class="card ">
+                  <div class="card-body text-center">
+                      <div class="BIT"><img src="static/images/BIT1.png"class="navbar-brand" width="200" height="200"></div>
+                      <h5 class="card-title">BITCOIN</h5>
+                      <p class="card-text">Current Market Price</p>
+                      <a href="/bitcoin" class="card-link">click to trade</a>
+                  </div>
+              </div>
+          </div>
+          <div class="col">
+              <div class="card">
+                  <div class="card-body text-center">
+                       <div class="LIT"><img src="static/images/LIT1.jpg"class="navbar-brand" width="200" height="200"></div>
+                      <h5 class="card-title">LITECOIN</h5>
+                      <p class="card-text">Current Market Price</p>
+                      <a href="/litecoin" class="card-link">click to trade</a>
+                  </div>
+              </div>
+          </div>
+          <div class="col">
+              <div class="card">
+                  <div class="card-body text-center">
+                      <div class="ETH">  <img src="static/images/ETH.PNG"class="navbar-brand" width="250" height="200"></div>
+                      <h5 class="card-title">ETHEREUM</h5>
+                      <p class="card-text">Current Market Price</p>
+                      <a href="/ethereum" class="card-link">click to trade</a>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+      <br>
+      
+
+
+      
+
+    <footer class="footer">
+      
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <a class="navbar-brand" >CryptoTrading</a>
+              <!--Add here -->
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+          <span class="navbar-toggler-icon"></span>
+          </button>
+          <!--Add here -->
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav ml-auto">
+                      <li class="nav-item">
+                          <a class="nav-link" href="/protfolio">My Portfolio</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="/trade">Trade</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" href="/login">Sign Out</a>
+                      </li>
+                  </ul>
+              </div>
+          </nav>
+          
+          <p>&copy; CryptoTrading 2018</p>
+
+    </footer>
 
     </div>
   </body>

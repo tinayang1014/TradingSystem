@@ -1,10 +1,10 @@
 from flask import Flask, render_template, json, request
-from flask_socketio import SocketIO, emit
-from werkzeug import generate_password_hash, check_password_hash
+# from flask_socketio import SocketIO, emit
+# from werkzeug import generate_password_hash, check_password_hash
 from random import random
-from time import sleep
-from threading import Thread, Event
-import Database, Socket
+# from time import sleep
+# from threading import Thread, Event
+# import Database, Socket
 
 
 
@@ -18,30 +18,26 @@ app = Flask(__name__)
 
 # export FLASK_DEBUG=1
 
-db = Database.Database()
+# db = Database.Database()
 
 #####################################
 ###### Comment Out Before Run #######
-@app.before_first_request
-def activate_job():
-    # print("in activate_job")
-    def run_job(stock):
-        while True:
-            s = Socket.Socket(stock)
-            time.sleep(30)
+# @app.before_first_request
+# def activate_job():
+#     # print("in activate_job")
+#     def run_job(stock):
+#         while True:
+#             s = Socket.Socket(stock)
+#             time.sleep(30)
 
-    for i in ["BTC-USD", "LTC-USD", "ETH-USD"]:
-        thread = Thread(target=run_job, args=(i,))
-        thread.start()
+#     for i in ["BTC-USD", "LTC-USD", "ETH-USD"]:
+#         thread = Thread(target=run_job, args=(i,))
+#         thread.start()
 
 #####################################
 
 @app.route('/')
 def main():
-    '''
-    SignUp
-    LogIn
-    '''
     sym = db.get_data("select * from symbol")
     db.close()
     return render_template('index.html', symbol = sym)
@@ -62,9 +58,9 @@ def trade():
     return render_template('trade.html')
 
 
-@app.route('/protfoilo')
+@app.route('/portfolio')
 def protfoilo():
-    return render_template('protfoilo.html')
+    return render_template('protfolio.html')
 
 
 
