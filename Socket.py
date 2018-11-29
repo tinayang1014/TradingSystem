@@ -16,6 +16,7 @@ class Socket:
     def __init__(self, stock):
         self.stock = stock
         self.db = Database.Database()
+        self.__value = ()
         # print("in socket init")
         asyncio.set_event_loop(asyncio.new_event_loop())
         asyncio.get_event_loop().run_until_complete(self.start_gdax_websocket())
@@ -38,29 +39,35 @@ class Socket:
             price = float(message['price'])
             best_bid = float(message['best_bid'])
             best_ask = float(message['best_ask'])
-            value = (currency_id, time, open, price, best_bid, best_ask)
-            return value
+            self.__value = (currency_id, time, open, price, best_bid, best_ask)
+
     
-    def insert_price(self, value):
+    def insert_price(self):
         colName = 'currency_id, time_stamp, open, price, best_bid, best_ask'
-        self.db.insert_data('price', colName, value)
-        print("insert price success")
+        # print("insert_price", self.__value)
+        self.db.insert_data('price', colName, self.__value)
+        print("insert price success", self.refresh_web_price())
+
+    def refresh_web_price(self):
+        return (self.__value[0], self.__value[3])
 
     async def start_gdax_websocket(self):
         # print("in start gdax websocket")
         async with websockets.connect('wss://ws-feed.pro.coinbase.com') as websocket:
             # print("1")
             await websocket.send(self.build_request())
-            # await asyncio.sleep(60)
+            time.sleep(10)
             # print("2")
             async for m in websocket:
                 # print("3")
                 # print(m)
-                value = self.organize_message(m)
-                print(value)
-                if value != None:
-                    self.insert_price(value)
-                
+                self.organize_message(m)
+                # print(self.__value)
+                if self.__value != ():
+                    # print(self.refresh_web_price())
+                    self.insert_price()
+                    
+
     
     def build_request(self):
         request = "{\"type\": \"subscribe\",  \"channels\": [{ \"name\": \"ticker\", \"product_ids\": [\"%s\"] }]}"%(self.stock)

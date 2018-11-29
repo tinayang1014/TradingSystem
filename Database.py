@@ -23,7 +23,7 @@ class Database:
     
     def get_data(self, sql):
         self.connection.cmd_query(sql)
-        rows = list(self.connection.get_rows())
+        rows = self.connection.get_rows()
         return rows[0]
 
     def insert_data(self, table, colName, value):

@@ -60,15 +60,16 @@ use TradingSys;
 --     primary key(portfolio_id)
 -- );
 
-select * from price;
-
 
 # update real time currency price
--- select close
+-- select price
 -- from price
 -- where currency_id = 1 and time_stamp = (
 -- select max(time_stamp)
 -- from price
 -- where currency_id = 1);
 
+# check userName already in DB
+select login
+from user;
 
