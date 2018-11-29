@@ -30,7 +30,7 @@ class Database:
         cursor = self.connection.cursor()
         # print(value)
         sql = "INSERT INTO %s (%s) VALUES %s"%(table, colName, value)
-        print(sql)
+        # print(sql)
         cursor.execute(sql)
         self.connection.commit()
 
