@@ -70,6 +70,6 @@ use TradingSys;
 -- where currency_id = 1);
 
 # check userName already in DB
-select login
+select *
 from user;
 

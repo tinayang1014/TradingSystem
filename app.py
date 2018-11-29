@@ -12,20 +12,17 @@ from random import random
 from time import sleep
 from threading import Thread, Event
 import Database, Socket
+import User
 
 
 
 app = Flask(__name__)
-# app.config['SECRET_KEY'] = 'secret!'
-# socketio = SocketIO(app)
 
-# #random number Generator Thread
-# thread = Thread()
-# thread_stop_event = Event()
 
 # export FLASK_DEBUG=1
 
 db = Database.Database()
+user = User.User()
 
 # refresh_price = ()
 ####################################
@@ -60,26 +57,53 @@ def get_updated_price(newest_currency_price):
     return newest_currency_price
 
 
+# Dictionary with latest currency price
+# 1.BTC 2.LTC 3.ETH
+newest_currency_price = {1:0, 2:0, 3:0}
+
 @app.route('/')
 def main():
-    sym = db.get_data("select * from symbol")
-    db.close()
-    return render_template('index.html', symbol = sym)
+    # sym = db.get_data("select * from symbol")
+    # db.close()
+    return render_template('index.html', updated_price = newest_currency_price)
 
 
 @app.route('/signUp')
 def signUp():
     return render_template('signUp.html')
 
+@app.route('/userCreate', methods = ['POST'])
+def userCreate():
+    userName = request.form['Create_userName']
+    password = request.form['Create_password']
+
+    # create user and insert into the database
+    user.set_credential(userName, password)
+    res = user.create_user_in_DB(db)
+    if not res:
+        return render_template('signUp.html')
+    else:
+        return render_template('trade.html')
+
+@app.route('/userLogIn', methods = ['POST'])
+def userLogIn():
+    userName = request.form['LogInUserName']
+    password = request.form['LogInPassword']
+    # Check credentail
+    user.set_credential(userName, password)
+    if user.verify_user(db):
+        return render_template('portfolio.html')
+    else:
+        return "user name or password is invalid."
+
 
 @app.route('/login')
 def login():
+
     return render_template('login.html')
 
 
-# Dictionary with latest currency price
-# 1.BTC 2.LTC 3.ETH
-newest_currency_price = {1:0, 2:0, 3:0}
+
 
 @app.route('/trade', methods=['GET','POST']) 
 def trade():
