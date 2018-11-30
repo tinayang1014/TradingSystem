@@ -28,7 +28,7 @@
           <th>Total_Quantity</th>
           <th>Total_Cost</th>
           <th>Mkt_Value</th>
-          <th>P/L</th>
+          <th>UP/L</th>
         </tr>
       </thead>
       <tbody>
@@ -56,15 +56,20 @@
       </tbody>
     </table>
 
-    <table class = 'table table'>
+    
+
+    <table class = 'table table-hover'>
       <caption>Trading History</caption>
-      <tr>
-          <th>Symbol</th>
-          <th>Qty</th>
-          <th>Date</th>
-          <th>Mkt_Price</th>
-          <th>Cost</th>
-      </tr>
+      <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Qty</th>
+            <th>Timestamp</th>
+            <th>Cost</th>
+            <th>Mkt_Price</th>
+            <th>RP/L</th>
+        </tr>
+      </thead>
       {% for v in orders %}
       <tr>
           <td>{{v[0]}}</td>
@@ -72,9 +77,13 @@
           <td>{{v[2]}}</td>
           <td>{{v[3]}}</td>
           <td>{{v[4]}}</td>
+          <td>{{v[5]}}</td>
       </tr>
       {% endfor %}
       </table>
+
+      
+    
 
       <footer class="footer">
         <p>&copy; Company 2015</p>
