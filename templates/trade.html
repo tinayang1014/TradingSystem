@@ -43,12 +43,13 @@
               </ul>
           </div>
       </nav>
-      <div class="jumbotron">
-              <h1 class="display-4">Online Crypto Trading Platform.</h1>
-              <p class="lead">This online Crypto Trading platform allows users to trade three popular crypto currencies: Bitcoin,Litecoin,Ethereum. </p>
-              <p class="lead">The users can click into different currencies to trade</p>
+      
+    
+    <br>
 
-      </div>
+    <div class="jumbotron-narrow">
+        <h1>Hello,XXX</h1>
+    </div>
   
 
     <div class="row">
@@ -57,8 +58,8 @@
                   <div class="card-body text-center">
                       <div class="BIT"><img src="static/images/BIT1.png"class="navbar-brand" width="200" height="200"></div>
                       <h5 class="card-title">BITCOIN</h5>
-                      <p class="card-text">Current Market Price: {{ updated_price[1] }}</p>
-                      <a href="/bitcoin" class="card-link">click to trade</a>
+                      <p class="card-text">Current Market Price: {{ updated_price[1] }} USD</p>
+                      <!-- <a href="/bitcoin" class="card-link">click to trade</a> -->
                   </div>
               </div>
           </div>
@@ -67,8 +68,8 @@
                   <div class="card-body text-center">
                        <div class="LIT"><img src="static/images/LIT1.jpg"class="navbar-brand" width="200" height="200"></div>
                       <h5 class="card-title">LITECOIN</h5>
-                      <p class="card-text">Current Market Price: {{ updated_price[2] }}</p>
-                      <a href="/litecoin" class="card-link">click to trade</a>
+                      <p class="card-text">Current Market Price: {{ updated_price[2] }} USD</p>
+                      <!-- <a href="/litecoin" class="card-link">click to trade</a> -->
                   </div>
               </div>
           </div>
@@ -77,18 +78,20 @@
                   <div class="card-body text-center">
                       <div class="ETH">  <img src="static/images/ETH.PNG"class="navbar-brand" width="250" height="200"></div>
                       <h5 class="card-title">ETHEREUM</h5>
-                      <p class="card-text">Current Market Price: {{ updated_price[3] }}</p>
-                      <a href="/ethereum" class="card-link">click to trade</a>
+                      <p class="card-text">Current Market Price: {{ updated_price[3] }} USD</p>
+                      <!-- <a href="/ethereum" class="card-link">click to trade</a> -->
                   </div>
               </div>
           </div>
-            </br>
-            </br>
+    </div>
+            <br>
+            <br>
 
 
-            <div>
-            
-                <form class = "form-inline" method='post'>
+
+    <div class="jumbotron-narrow">
+        <h1>Trade Here</h1>
+            <form class = "form-inline" method='post'>
                     <label class="mr-sm-2" for="inlineFormCustomSelect">Select a currency</label>
                     <select name="itemOrdered" class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect">
                           <option selected>Choose...</option>
@@ -110,8 +113,12 @@
                       
                     <button type='submit'  class="btn btn-primary">CheckOut</button>
                 </form>
-            </div>
-      </div>
+
+    </div>
+
+
+       
+    
 
       <br>
       
