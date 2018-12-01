@@ -47,6 +47,7 @@ def activate_job():
 
 
 
+
 def get_updated_price(newest_currency_price):
     sql = "select price from price where currency_id = %s and time_stamp = (select max(time_stamp) from price where currency_id = %s);"
     for c in newest_currency_price:
@@ -62,8 +63,8 @@ newest_currency_price = {1:0, 2:0, 3:0}
 
 @app.route('/')
 def main():
-    # sym = db.get_data("select * from symbol")
-    # db.close()
+    sym = db.get_data("select * from symbol")
+    db.close()
     return render_template('index.html', updated_price = newest_currency_price)
 
 
@@ -134,8 +135,6 @@ def order():
 @app.route('/portfolio')
 def protfoilo():
     return render_template('portfolio.html')
-
-
 
 if __name__ == '__main__':
     app.run(threaded = True, debug = True)
