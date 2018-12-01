@@ -26,24 +26,24 @@ user = User.User()
 # refresh_price = ()
 ####################################
 ##### Comment Out Before Run #######
-# @app.before_first_request
-# def activate_job():
-#     # print("in activate_job")
-#     def run_job(stock):
-#         s = Socket.Socket(stock)
-#         # refresh_price = s.refresh_web_price()
-#         # print(refresh_price)
-#         # while True:
-#         #     s = Socket.Socket(stock)
-#             # refresh_price = s.refresh_web_price()
-#             # print(refresh_price)
-#             # time.sleep(30)
+@app.before_first_request
+def activate_job():
+    # print("in activate_job")
+    def run_job(stock):
+        s = Socket.Socket(stock)
+        # refresh_price = s.refresh_web_price()
+        # print(refresh_price)
+        # while True:
+        #     s = Socket.Socket(stock)
+            # refresh_price = s.refresh_web_price()
+            # print(refresh_price)
+            # time.sleep(30)
 
-#     for i in ["BTC-USD", "LTC-USD", "ETH-USD"]:
-#         thread = Thread(target=run_job, args=(i,))
-#         thread.start()
+    for i in ["BTC-USD", "LTC-USD", "ETH-USD"]:
+        thread = Thread(target=run_job, args=(i,))
+        thread.start()
 
-# ####################################
+####################################
 
 
 
