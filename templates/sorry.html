@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Python Flask Bucket List App</title>
+ 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,800">
+    <link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+ 
+    <!-- <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet"> -->
+    <link href="../static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/signin.css') }}">
+
+ 
+    
+  </head>
+ 
+  <body>
+ 
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" >CryptoTrading</a>
+          <!--Add here -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      <!--Add here -->
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav ml-auto">
+                  <li class="nav-item">
+                      <a class="nav-link" href="/portfolio">My Portfolio</a>
+                  </li>
+                  <!-- <li class="nav-item">
+                      <a class="nav-link" href="/login">Log In</a>
+                  </li> -->
+                  <li class="nav-item">
+                      <a class="nav-link" href="/signUp">Log Out</a>
+                  </li>
+              </ul>
+          </div>
+      </nav>
+      <div class="jumbotron">
+        <h1 class="display-4">Sorry. The transaction did not go through!!</h1>
+        <p class="lead">We have found that you do not have enough balance to purchase.</p>
+        
+        <a href="/trade" >Click here to trade again</a>
+        </div>
+
+    
+
+      <footer class="footer">
+            
+        <p>&copy; CryptoTrading 2018</p>
+      </footer>
+ 
+    </div>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/signup.js"></script>
+  </body>
+</html>
+
