@@ -1,4 +1,4 @@
-
+-- create database TradingSys;
 use TradingSys;
 
 
