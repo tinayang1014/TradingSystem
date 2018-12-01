@@ -5,12 +5,13 @@
 ###### Created: 20181111
 ###########################
 
-from flask import Flask, render_template, json, request, jsonify
+from flask import Flask, render_template, json, request
 from flask_socketio import SocketIO, emit
 # from werkzeug import generate_password_hash, check_password_hash
 from random import random
 from time import sleep
 from threading import Thread, Event
+import datetime
 import Database, Socket
 import User
 
@@ -99,13 +100,9 @@ def userLogIn():
 
 @app.route('/login')
 def login():
-
     return render_template('login.html')
 
-
-
-
-@app.route('/trade', methods=['GET','POST']) 
+@app.route('/trade', methods = ['GET','POST']) 
 def trade():
     global newest_currency_price 
     def update_currency():
@@ -121,6 +118,20 @@ def trade():
 
     return render_template('trade.html', updated_price = newest_currency_price)
 
+@app.route('/bitcoin')
+def bitcoin():
+    return render_template('bitcoin.html')
+
+@app.route('/order', methods = ['POST'])
+def order():
+    # 1.BTC 2.LTC 3.ETH
+    currency = int(request.form['itemOrdered'])
+    # 1.sell 2.buy
+    side = int(request.form['saleorbuy'])
+    quant = int(request.form['orderQty'])
+    timestamp = datetime.datetime.now()
+    user.insert_tracation(db, currency, side, quant, timestamp)
+    return "order success"
 
 @app.route('/portfolio')
 def protfoilo():

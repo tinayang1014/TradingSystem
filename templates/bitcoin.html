@@ -35,19 +35,19 @@
   <body class="horizontal-layout horizontal-menu 2-columns   menu-expanded" data-open="hover" data-menu="horizontal-menu" data-col="2-columns">
     <h1>Bitcoin</h1>
     <h2>Please order</h2>
-        <form action='/process'method='post'>
+        <form action='/order'method='POST'>
             Select Item:
             <select name="itemOrdered">
-                <option value = "1"> BTC</option>
+                <option value = "1">BTC</option>
                 <option value ='2'>LTC</option>
                 <option value ='3'>ETH</option>
             </select><br>
             Side:
             <select name="saleorbuy">
                 <option value="1">Sell</option>
-                <option value="1">Buy</option>
+                <option value="2">Buy</option>
             </select><br>
-            quantity: <input type='number'name='qty'><br>
+            quantity: <input type='number'name='orderQty'><br>
             <input type='submit'value='Click Checkout')>
         </form>
 

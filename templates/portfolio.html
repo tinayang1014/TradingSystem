@@ -14,8 +14,76 @@
 
   <body>
 
-    <h1>Protfoilo Page</h1>
-    <h2>Created by: T, J, D</h2>
+    <h1>CUSTOMER_PROFOLIO</h1>
+    <h2>Hello, XXX </h2>
+    User_ID: XXXX <br>
+    <br>
+    <br>
+    <br>
+    <table class="table table-hover">
+      <caption>Current_Balence</caption>
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Total_Quantity</th>
+          <th>Total_Cost</th>
+          <th>Mkt_Value</th>
+          <th>UP/L</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>BTC</td>
+          <td>xxx</td>
+          <td>xxx</td>
+          <td>xxx</td>
+          <td>xxx</td>
+        </tr>
+        <tr>
+          <td>LTC</td>
+          <td>xxx</td>
+          <td>xxx</td>
+          <td>xxx</td>
+          <td>xxx</td>
+        </tr>
+        <tr>
+          <td>ETH</td>
+          <td>xxx</td>
+          <td>xxx</td>
+          <td>xxx</td>
+          <td>xxx</td>
+        </tr>
+      </tbody>
+    </table>
+
+    
+
+    <table class = 'table table-hover'>
+      <caption>Trading History</caption>
+      <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Qty</th>
+            <th>Timestamp</th>
+            <th>Cost</th>
+            <th>Mkt_Price</th>
+            <th>RP/L</th>
+        </tr>
+      </thead>
+      {% for v in orders %}
+      <tr>
+          <td>{{v[0]}}</td>
+          <td>{{v[1]}}</td>
+          <td>{{v[2]}}</td>
+          <td>{{v[3]}}</td>
+          <td>{{v[4]}}</td>
+          <td>{{v[5]}}</td>
+      </tr>
+      {% endfor %}
+      </table>
+
+      
+    
 
       <footer class="footer">
         <p>&copy; Company 2015</p>
