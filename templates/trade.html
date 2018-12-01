@@ -17,7 +17,7 @@
 
   </head>
 
-  <body>
+<body class="horizontal-layout horizontal-menu 2-columns   menu-expanded" data-open="hover" data-menu="horizontal-menu" data-col="2-columns"></body>
 
     <!-- <h1>Trade Page</h1>
     <h2>Created by: Josephine</h2> -->
@@ -82,6 +82,25 @@
                   </div>
               </div>
           </div>
+
+          <div>
+            
+                <form method='post'>
+                    Select Item:
+                    <select name="itemOrdered">
+                        <option value = "1"> BTC</option>
+                        <option value ='2'>LTC</option>
+                        <option value ='3'>ETH</option>
+                    </select>
+                    Side:
+                    <select name="saleorbuy">
+                        <option value="1">Sell</option>
+                        <option value="1">Buy</option>
+                    </select>
+                    quantity: <input type='number'name='qty'>
+                    <input type='submit' value='Click Checkout'>
+                </form>
+            </div>
       </div>
 
       <br>

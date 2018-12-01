@@ -16,7 +16,7 @@ class Database:
         #####################################
         ###### Change Before run ############
         self.connection = mc.connect(user='root',
-            password = 'tinayang',
+            password = '511511',
             host = '127.0.0.1',
             database = 'TradingSys',
             auth_plugin = 'mysql_native_password')
