@@ -4,17 +4,49 @@
   <head>
     <title>Python Flask Bucket List App</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-
     <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:400,800">
+    <link rel='stylesheet' href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
+ 
+    <!-- <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet"> -->
+    <link href="../static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/signin.css') }}">
 
    
   </head>
 
   <body>
 
-    <h1>CUSTOMER_PROFOLIO</h1>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+          <a class="navbar-brand" >CryptoTrading</a>
+            <!--Add here -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <!--Add here -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/signUp">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+          
+
+    <h2>CUSTOMER_PROFOLIO</h2>
     <h2>Hello, XXX </h2>
     User_ID: XXXX <br>
     <br>
@@ -56,6 +88,11 @@
       </tbody>
     </table>
 
+    <figure class="figure">
+        <img src=".../400x300" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+        <figcaption class="figure-caption text-center">A caption for the above image.</figcaption>
+      </figure>
+
     
 
     <table class = 'table table-hover'>
@@ -81,6 +118,12 @@
       </tr>
       {% endfor %}
       </table>
+
+
+      <figure class="figure">
+          <img src=".../400x300" class="figure-img img-fluid rounded" alt="A generic square placeholder image with rounded corners in a figure.">
+          <figcaption class="figure-caption text-center">A caption for the above image.</figcaption>
+        </figure>
 
       
     

@@ -6,8 +6,11 @@
 ###########################
 
 from flask import Flask, render_template, json, request
+<<<<<<< HEAD
 from flask_socketio import SocketIO, emit
 # from werkzeug import generate_password_hash, check_password_hash
+=======
+>>>>>>> 7778c8c17272f97926d2c893a30c1578b667f363
 from random import random
 from time import sleep
 from threading import Thread, Event
@@ -26,8 +29,13 @@ db = Database.Database()
 user = User.User()
 
 # refresh_price = ()
+<<<<<<< HEAD
 # ####################################
 # ##### Comment Out Before Run #######
+=======
+####################################
+##### Comment Out Before Run #######
+>>>>>>> 7778c8c17272f97926d2c893a30c1578b667f363
 # @app.before_first_request
 # def activate_job():
 #     # print("in activate_job")
@@ -40,12 +48,19 @@ user = User.User()
 #             # refresh_price = s.refresh_web_price()
 #             # print(refresh_price)
 #             # time.sleep(30)
+<<<<<<< HEAD
+
+#     for i in ["BTC-USD", "LTC-USD", "ETH-USD"]:
+#         thread = Thread(target=run_job, args=(i,))
+#         thread.start()
+=======
+>>>>>>> 7778c8c17272f97926d2c893a30c1578b667f363
 
 #     for i in ["BTC-USD", "LTC-USD", "ETH-USD"]:
 #         thread = Thread(target=run_job, args=(i,))
 #         thread.start()
 
-####################################
+# ####################################
 
 
 
@@ -84,7 +99,7 @@ def userCreate():
     if not res:
         return render_template('signUp.html')
     else:
-        return render_template('trade.html')
+        return render_template('portfolio.html')
 
 @app.route('/userLogIn', methods = ['POST'])
 def userLogIn():

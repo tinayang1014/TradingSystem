@@ -1,4 +1,4 @@
-
+-- create database TradingSys;
 use TradingSys;
 
 
@@ -71,5 +71,5 @@ where currency_id = 1);
 
 # check userName already in DB
 select *
-from user;
+from transaction;
 
