@@ -6,8 +6,6 @@
 ###########################
 
 from flask import Flask, render_template, json, request
-###from flask_socketio import SocketIO, emit
-from werkzeug import generate_password_hash, check_password_hash
 from random import random
 from time import sleep
 from threading import Thread, Event
@@ -84,7 +82,7 @@ def userCreate():
     if not res:
         return render_template('signUp.html')
     else:
-        return render_template('trade.html')
+        return render_template('portfolio.html')
 
 @app.route('/userLogIn', methods = ['POST'])
 def userLogIn():

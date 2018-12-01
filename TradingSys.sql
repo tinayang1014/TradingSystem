@@ -71,5 +71,5 @@ use TradingSys;
 
 # check userName already in DB
 select *
-from user;
+from transaction;
 
