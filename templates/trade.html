@@ -82,23 +82,33 @@
                   </div>
               </div>
           </div>
+            </br>
+            </br>
 
-          <div>
+
+            <div>
             
-                <form method='post'>
-                    Select Item:
-                    <select name="itemOrdered">
-                        <option value = "1"> BTC</option>
-                        <option value ='2'>LTC</option>
-                        <option value ='3'>ETH</option>
-                    </select>
-                    Side:
-                    <select name="saleorbuy">
-                        <option value="1">Sell</option>
-                        <option value="1">Buy</option>
-                    </select>
-                    quantity: <input type='number'name='qty'>
-                    <input type='submit' value='Click Checkout'>
+                <form class = "form-inline" method='post'>
+                    <label class="mr-sm-2" for="inlineFormCustomSelect">Select a currency</label>
+                    <select name="itemOrdered" class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect">
+                          <option selected>Choose...</option>
+                          <option value="1">BTC-USD</option>
+                          <option value="2">LTC-USD</option>
+                          <option value="3">ETH-USD</option>
+                        </select>
+                    
+                    <label class="mr-sm-2" for="inlineFormCustomSelect">Side</label>
+                    <select name="saleorbuy" class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect">
+                          <option selected>Choose...</option>
+                          <option value="1">Sell</option>
+                          <option value="1">Buy</option>
+                          
+                        </select>
+
+                    <label class="sr-only" for="inlineFormInput">Quantity</label>
+                    <input type="number" name="orderQty" class="form-control mb-2 mr-sm-2 mb-sm-0" id="inlineFormInput" placeholder="Quantity">
+                      
+                    <button type='submit'  class="btn btn-primary">CheckOut</button>
                 </form>
             </div>
       </div>
