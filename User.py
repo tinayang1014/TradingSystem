@@ -13,6 +13,7 @@ class User:
         self.__id = 0
         self.__transaction = []
         self.__cash_balance = 100000
+        self.__portfolio = {}
     
     def set_credential(self, userName, password):
         self.__userName = userName
@@ -35,6 +36,19 @@ class User:
 
     def get_last_trans(self):
         return self.__transaction[-1]
+
+    def set_portfolio(self, db):
+        sql = "select currency_id, quant, vwap, rpl from portfolio where user_id = %s;" % (self.__id)
+        result = db.get_data(sql)
+        if result != []:
+            for i in result:
+                p = Portfolio(self.__id, i[0], i[1], i[2], i[3])
+                self.__portfolio[i[0]] = p
+
+    def init_port(self, db, side, currency, quant, vwap):
+        new_p = Portfolio(self.__id, currency, quant, vwap, 0)
+        self.__portfolio[currency] = new_p
+        new_p.insert_portfolio(db)
 
     def __update_cash_balance(self, db, side, total):
         # 1.sell 2.buy
@@ -64,6 +78,7 @@ class User:
             db.insert_data(table, colName, value)
             print("create user success")
             self.set_userID(db)
+            self.set_portfolio(db)
             return True
     
     def verify_user(self,db):
@@ -81,6 +96,7 @@ class User:
                 balanceSql = "select cash_balance from user where user_id = %s" % (self.__id)
                 cash_balance = db.get_data(balanceSql)
                 self.set_balance(cash_balance[0][0])
+                sef.set_portfolio(db)
                 return True 
         return False
 
@@ -89,12 +105,13 @@ class User:
         # Determine Buy or Sell, seperate check process => seperate update protfolio
         # 1.sell 2.buy
         if side == 1:
-            sql = "select quant from portfolio where user_id = %s and currency_id = %s;" % (self.__id, currency)
-            result = db.get_data(sql)
-            if result != [] and t.check_quant(result[0][0]):
+            # sql = "select quant from portfolio where user_id = %s and currency_id = %s;" % (self.__id, currency)
+            # result = db.get_data(sql)
+            if currency in self.__portfolio and t.check_quant(self.__portfolio[currency].get_quant()):
                 t.insert_trans(db)
                 self.__transaction.append(t)
                 self.__update_cash_balance(db, side, t.get_trans_total())
+                self.__portfolio[currency].update(db, side, quant, t.get_display_price())
                 return True
         else:
             # When Buy, check cash balance
@@ -103,6 +120,11 @@ class User:
                 t.insert_trans(db)
                 self.__transaction.append(t)
                 self.__update_cash_balance(db, side, t.get_trans_total())
+                self.__portfolio[currency].update(db, side, quant, t.get_display_price())
+                if currency in self.__portfolio:
+                    self.__portfolio[currency].update(db, side, quant, t.get_display_price())
+                else:
+                    self.init_port(db, side, currency, quant,t.get_display_price())
                 return True
         return False
 
@@ -152,7 +174,7 @@ class Transaction:
         db.insert_data(table, colName, value)
 
 class Portfolio:
-    def __init__(self, user_id, currency_id):
+    def __init__(self, user_id, currency_id, quant, vwap, rpl):
         self.__user_id = user_id
         self.__currency_id = currency_id
     
@@ -163,22 +185,20 @@ class Portfolio:
     #if sell, update quant and rpl
 
 
-    #check if currency_id exists in user portfolio
-    def check_first():
-        sql="select currency_id from portfolio where user_id=%s"
-        if currency_id not in 
-
-
-
-    def check_portfolio()
-    
-    def insert_buy(self,)
-
 
 
 
         
 
+    def get_quant(self):
+        return self.__quant
+    
+    def insert_portfolio(self,db):
+        pass
+
+
+    def update(self, db, side, new_quant, new_price):
+        pass
                 
 
         
