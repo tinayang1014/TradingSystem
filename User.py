@@ -96,7 +96,7 @@ class User:
                 balanceSql = "select cash_balance from user where user_id = %s" % (self.__id)
                 cash_balance = db.get_data(balanceSql)
                 self.set_balance(cash_balance[0][0])
-                sef.set_portfolio(db)
+                self.set_portfolio(db)
                 return True 
         return False
 
@@ -108,23 +108,21 @@ class User:
             # sql = "select quant from portfolio where user_id = %s and currency_id = %s;" % (self.__id, currency)
             # result = db.get_data(sql)
             if currency in self.__portfolio and t.check_quant(self.__portfolio[currency].get_quant()):
-                t.insert_trans(db)
+                self.__portfolio[currency].update(db, side, quant, t.get_display_price())
+                t.insert_trans(db, self.__portfolio[currency].get_trans_rpl())
                 self.__transaction.append(t)
                 self.__update_cash_balance(db, side, t.get_trans_total())
-                self.__portfolio[currency].update(db, side, quant, t.get_display_price())
                 return True
         else:
             # When Buy, check cash balance
             if t.check_balance(self.__cash_balance):
-                # print("insert_transaction, in if")
-                t.insert_trans(db)
-                self.__transaction.append(t)
-                self.__update_cash_balance(db, side, t.get_trans_total())
-                self.__portfolio[currency].update(db, side, quant, t.get_display_price())
                 if currency in self.__portfolio:
                     self.__portfolio[currency].update(db, side, quant, t.get_display_price())
                 else:
                     self.init_port(db, side, currency, quant,t.get_display_price())
+                t.insert_trans(db, self.__portfolio[currency].get_trans_rpl())
+                self.__transaction.append(t)
+                self.__update_cash_balance(db, side, t.get_trans_total())
                 return True
         return False
 
@@ -144,6 +142,7 @@ class Transaction:
         self.__quant = quant
         self.__timestamp = timestamp.strftime('%Y-%m-%d %H:%M:%S')
         self.__price = self.get_currency_price(db)
+        self.__trans_rpl = 0
 
     def get_trans_total(self):
         return self.__quant * self.__price
@@ -160,17 +159,22 @@ class Transaction:
         return self.__price
 
     def get_currency_price(self, db):
-        sql = "select price from price where currency_id = %s and time_stamp = (select max(time_stamp) from price where currency_id = %s and time_stamp> \'%s\');" 
-        % (self.__currency_id, self.__currency_id, self.__timestamp)
+        sql = "select price from price where currency_id = %s and time_stamp = (select max(time_stamp) from price where currency_id = %s and time_stamp<= \'%s\');" % (self.__currency_id, self.__currency_id, self.__timestamp)
+        print(sql)
         price = db.get_data(sql)
-        # print("in Transacation price: ", price)
+        print("in Transacation price: ", price)
         return float(price[0][0])
     
-    def insert_trans(self, db):
+    def insert_trans(self, db, trans_rpl):
+        self.__trans_rpl = trans_rpl
         table = "transaction"
-        colName = "currency_id, user_id, type, quant, price, timestamp"
         print("in Transaction Insert", self.__user_id)
-        value = (self.__currency_id, self.__user_id, self.__type, self.__quant, self.__price, self.__timestamp)
+        if self.__type == "Sell":
+            colName = "currency_id, user_id, type, quant, price, timestamp, trans_rpl"
+            value = (self.__currency_id, self.__user_id, self.__type, self.__quant, self.__price, self.__timestamp, self.__trans_rpl)
+        else:
+            colName = "currency_id, user_id, type, quant, price, timestamp"
+            value = (self.__currency_id, self.__user_id, self.__type, self.__quant, self.__price, self.__timestamp)
         db.insert_data(table, colName, value)
 
 class Portfolio:
@@ -180,6 +184,7 @@ class Portfolio:
         self.__quant = quant
         self.__vwap = vwap
         self.__rpl = rpl
+        self.__trans_rpl = 0
     
     # first transaction must be buy, if sell--sorry
     #1. insert portfolio table if first time buy with quant and price
@@ -197,21 +202,25 @@ class Portfolio:
         value=(self.__user_id,self.__currency_id,self.__quant,self.__vwap,self.__rpl)
         db.insert_data(table,colName,value)
         
-        
+    def get_trans_rpl(self):
+        return self.__trans_rpl
 
     #new_quant is transaction quantity, new_price is transaction price
     def update(self, db, side, new_quant, new_price):
         table="portfolio"
         #1.sell 2.buy
-        if side==1:
+        print("in update protf: ", new_price)
+        if side==2:
             self.__vwap=(self.__quant*self.__vwap + new_quant*new_price)/(self.__quant+new_quant)
             self.__quant+=new_quant
             colValue = "quant = %s, vwap=%s" % (self.__quant,self.__vwap)
-        elif side==2:
-            self.__rpl=self.__rpl+(new_price-self.__vwap)*self.__quant
+        elif side==1:
+            print(new_price - self.__vwap)
+            self.__trans_rpl = (new_price - self.__vwap)*new_quant
+            self.__rpl=self.__rpl+ self.__trans_rpl
             self.__quant-=new_quant
-            colValue="quant = %s, rpl =%s"%(self.__quant,self.__vwap)
-        condition = "user_id = %s,currency_id =%s" % (self.__user_id,self.__currency_id)
+            colValue="quant = %s, rpl =%s"%(self.__quant,self.__rpl)
+        condition = "user_id = %s and currency_id =%s" % (self.__user_id,self.__currency_id)
         db.update_data(table,colValue,condition)   
 
         
