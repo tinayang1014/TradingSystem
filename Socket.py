@@ -9,8 +9,9 @@ import asyncio
 import websockets
 import json
 import time
-import dateutil.parser
 import Database
+import datetime
+import pytz, dateutil.parser
 
 class Socket:
     def __init__(self, stock):
@@ -36,8 +37,10 @@ class Socket:
             time = message['time']
             ####### Handle time format
             # Default is EUROPE time, convert to current time zone >>>>>>>>>
+            localtime=time.astimezone(pytz.timezone("US/Eastern"))
+            localiso=localtime.isoformat()
 
-            time = dateutil.parser.parse(time).strftime('%Y-%m-%d %H:%M:%S')
+            time = dateutil.parser.parse(localiso).strftime('%Y-%m-%d %H:%M:%S')
             # open = float(message['open_24h'])
             price = float(message['price'])
             # best_bid = float(message['best_bid'])
@@ -81,3 +84,5 @@ class Socket:
 
 # if __name__ == "__main__":
 #     s = Socket("BTC-USD")
+
+
