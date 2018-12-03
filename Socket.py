@@ -37,6 +37,7 @@ class Socket:
             time = message['time']
             ####### Handle time format
             # Default is EUROPE time, convert to current time zone >>>>>>>>>
+            time=dateutil.parser.parse(time)
             localtime=time.astimezone(pytz.timezone("US/Eastern"))
             localiso=localtime.isoformat()
 

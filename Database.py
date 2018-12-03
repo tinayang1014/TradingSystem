@@ -16,15 +16,14 @@ class Database:
         #####################################
         ###### Change Before run ############
         self.connection = mc.connect(user='root',
-<<<<<<< HEAD
-            password = '511511',
-=======
-            password = 'amber0114',
->>>>>>> 7778c8c17272f97926d2c893a30c1578b667f363
+            password = 'tinayang',
             host = '127.0.0.1',
             database = 'TradingSys',
             auth_plugin = 'mysql_native_password')
     
+    def reconnect_db(self):
+        self.connection.reconnect()
+
     def get_data(self, sql):
         self.connection.cmd_query(sql)
         rows = self.connection.get_rows()
@@ -35,6 +34,12 @@ class Database:
         # print(value)
         sql = "INSERT INTO %s (%s) VALUES %s"%(table, colName, value)
         # print(sql)
+        cursor.execute(sql)
+        self.connection.commit()
+
+    def update_data(self, table, colValue, condition):
+        cursor = self.connection.cursor()
+        sql = "UPDATE %s SET %s WHERE %s;" % (table, colValue, condition)
         cursor.execute(sql)
         self.connection.commit()
 
