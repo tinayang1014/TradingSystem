@@ -16,7 +16,8 @@ class Socket:
     def __init__(self, stock):
         self.stock = stock
         self.db = Database.Database()
-        self.__value = ()
+        self.__value = {1:(1,0,0), 2:(2,0,0), 3:(3,0,0)}
+        # self.__currency_id = 0
         # print("in socket init")
         asyncio.set_event_loop(asyncio.new_event_loop())
         asyncio.get_event_loop().run_until_complete(self.start_gdax_websocket())
@@ -34,22 +35,26 @@ class Socket:
             # time is a str with ISO 8601 format: 2018-11-19T20:29:20.550000Z
             time = message['time']
             ####### Handle time format
+            # Default is EUROPE time, convert to current time zone >>>>>>>>>
+
             time = dateutil.parser.parse(time).strftime('%Y-%m-%d %H:%M:%S')
-            open = float(message['open_24h'])
+            # open = float(message['open_24h'])
             price = float(message['price'])
-            best_bid = float(message['best_bid'])
-            best_ask = float(message['best_ask'])
-            self.__value = (currency_id, time, open, price, best_bid, best_ask)
+            # best_bid = float(message['best_bid'])
+            # best_ask = float(message['best_ask'])
+            return (currency_id, time, price)
 
     
-    def insert_price(self):
-        colName = 'currency_id, time_stamp, open, price, best_bid, best_ask'
+    
+    def insert_price(self, new):
+        self.__value[new[0]] = new
+        colName = 'currency_id, time_stamp, price'
         # print("insert_price", self.__value)
-        self.db.insert_data('price', colName, self.__value)
-        print("insert price success", self.refresh_web_price())
+        self.db.insert_data('price', colName, new)
+        print("insert price success", self.refresh_web_price(new))
 
-    def refresh_web_price(self):
-        return (self.__value[0], self.__value[3])
+    def refresh_web_price(self, new):
+        return (new[0], new[2])
 
     async def start_gdax_websocket(self):
         # print("in start gdax websocket")
@@ -61,11 +66,11 @@ class Socket:
             async for m in websocket:
                 # print("3")
                 # print(m)
-                self.organize_message(m)
-                # print(self.__value)
-                if self.__value != ():
+                new = self.organize_message(m)
+                print(new)
+                if new != None and new[2] != self.__value[new[0]][2]:
                     # print(self.refresh_web_price())
-                    self.insert_price()
+                    self.insert_price(new)
                     
 
     
@@ -74,5 +79,5 @@ class Socket:
         # print(request)
         return request
 
-if __name__ == "__main__":
-    s = Socket("BTC-USD")
+# if __name__ == "__main__":
+#     s = Socket("BTC-USD")
