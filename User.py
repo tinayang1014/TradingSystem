@@ -177,28 +177,44 @@ class Portfolio:
     def __init__(self, user_id, currency_id, quant, vwap, rpl):
         self.__user_id = user_id
         self.__currency_id = currency_id
+        self.__quant = quant
+        self.__vwap = vwap
+        self.__rpl = rpl
     
     # first transaction must be buy, if sell--sorry
     #1. insert portfolio table if first time buy with quant and price
     #2. following transaction
     #if buy, update quant and vwap
     #if sell, update quant and rpl
-
-
-
-
-
         
-
     def get_quant(self):
         return self.__quant
+
     
     def insert_portfolio(self,db):
-        pass
+        table="portfolio"
+        colName="user_id,currency_id,quant,vwap,rpl"
+        value=(self.__user_id,self.__currency_id,self.__quant,self.__vwap,self.__rpl)
+        db.insert_data(table,colName,value)
+        
+        
 
-
+    #new_quant is transaction quantity, new_price is transaction price
     def update(self, db, side, new_quant, new_price):
-        pass
+        table="portfolio"
+        #1.sell 2.buy
+        if side==1:
+            self.__vwap=(self.__quant*self.__vwap + new_quant*new_price)/(self.__quant+new_quant)
+            self.__quant+=new_quant
+            colValue = "quant = %s, vwap=%s" % (self.__quant,self.__vwap)
+        elif side==2:
+            self.__rpl=self.__rpl+(new_price-self.__vwap)*self.__quant
+            self.__quant-=new_quant
+            colValue="quant = %s, rpl =%s"%(self.__quant,self.__vwap)
+        condition = "user_id = %s,currency_id =%s" % (self.__user_id,self.__currency_id)
+        db.update_data(table,colValue,condition)   
+
+        
                 
 
         
