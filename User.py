@@ -138,7 +138,8 @@ class Transaction:
         return self.__price
 
     def get_currency_price(self, db):
-        sql = "select price from price where currency_id = %s and time_stamp = (select max(time_stamp) from price where currency_id = %s and time_stamp> \'%s\');" % (self.__currency_id, self.__currency_id, self.__timestamp)
+        sql = "select price from price where currency_id = %s and time_stamp = (select max(time_stamp) from price where currency_id = %s and time_stamp> \'%s\');" 
+        % (self.__currency_id, self.__currency_id, self.__timestamp)
         price = db.get_data(sql)
         # print("in Transacation price: ", price)
         return float(price[0][0])
@@ -154,6 +155,28 @@ class Portfolio:
     def __init__(self, user_id, currency_id):
         self.__user_id = user_id
         self.__currency_id = currency_id
+    
+    # first transaction must be buy, if sell--sorry
+    #1. insert portfolio table if first time buy with quant and price
+    #2. following transaction
+    #if buy, update quant and vwap
+    #if sell, update quant and rpl
+
+
+    #check if currency_id exists in user portfolio
+    def check_first():
+        sql="select currency_id from portfolio where user_id=%s"
+        if currency_id not in 
+
+
+
+    def check_portfolio()
+    
+    def insert_buy(self,)
+
+
+
+
         
 
                 
