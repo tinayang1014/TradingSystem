@@ -52,14 +52,14 @@
           
 
     <h2>CUSTOMER_PROFOLIO</h2>
-    <h2>Hello, XXX </h2>
-    User_ID: XXXX <br>
+    <h2>Hello, {{ userName }} </h2>
     <br>
     <br>
     <br>
-    Cash Balance: <table>xxx</table>
+    Cash Balance: <table>{{cashBalance}}</table>
     <table class="table table-hover">
-      Current Balence:
+      Current Balence: 
+      <!-- example: [('ETH-USD', 2, 107.5, 108.738), ('BTC-USD', 1, 3846.47, 3869.97), ('LTC-USD', 6, 30.6437, 30.452)] -->
       <thead>
         <tr>
           <th>Symbol</th>
@@ -72,6 +72,7 @@
       </thead>
       <tbody>
         <tr>
+          {{portfolio_balance}}
           <td>BTC</td>
           <td>aaa</td>
           <td>xxx</td>
@@ -138,6 +139,8 @@
 
     <table class = 'table table-hover'>
       Trading History:
+      <!-- example: [('LTC-USD', 'Buy', 1, 30.73, datetime.datetime(2018, 12, 3, 18, 25, 42), None), ('BTC-USD', 'Sell', 1, 3857.98, datetime.datetime(2018, 12, 3, 18, 27, 56), 4.0), ('ETH-USD', 'Sell', 3, 107.85, datetime.datetime(2018, 12, 3, 18, 29, 16), 0.57), ('LTC-USD', 'Buy', 1, 30.37, datetime.datetime(2018, 12, 3, 19, 16, 30), None), ('LTC-USD', 'Buy', 1, 30.46, datetime.datetime(2018, 12, 3, 19, 21, 54), None)] -->
+      {{trans_history}}
       <thead>
         <tr>
             <th>Symbol</th>

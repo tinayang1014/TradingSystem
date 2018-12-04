@@ -49,6 +49,15 @@ def get_updated_price(newest_currency_price):
         newest_currency_price[c] = price[0][0]
     return newest_currency_price
 
+def get_portfolio_balance(db, user_id):
+    sql = "select s.symbol, p.quant, p.vwap, p.rpl from portfolio as p join symbol as s on p.currency_id = s.currency_id where p.user_id = %s;" % (user_id)
+    result = db.get_data(sql)
+    return result
+
+def get_trans_history(db, user_id):
+    sql = "select s.symbol, t.type, t.quant, t.price, t.timestamp, t.trans_rpl from transaction as t join symbol as s on t.currency_id = s.currency_id where t.user_id = %s;" % (user_id)
+    result = db.get_data(sql)
+    return result
 
 # Dictionary with latest currency price
 # 1.BTC 2.LTC 3.ETH
@@ -61,6 +70,7 @@ def main():
 
 @app.route('/signUp')
 def signUp():
+    db.reconnect_db()
     return render_template('signUp.html')
 
 @app.route('/userCreate', methods = ['POST'])
@@ -74,7 +84,13 @@ def userCreate():
     if not res:
         return render_template('signUp.html')
     else:
-        return render_template('portfolio.html')
+        portfolio_balance = get_portfolio_balance(db, user.get_userID())
+        trans_history = get_trans_history(db, user.get_userID())
+        return render_template('portfolio.html', 
+                    userName = user.get_userName(),
+                    cashBalance = user.get_cash_balance(), 
+                    portfolio_balance = portfolio_balance, 
+                    trans_history = trans_history)
 
 @app.route('/userLogIn', methods = ['POST'])
 def userLogIn():
@@ -83,13 +99,20 @@ def userLogIn():
     # Check credentail
     user.set_credential(userName, password)
     if user.verify_user(db):
-        return render_template('portfolio.html')
+        portfolio_balance = get_portfolio_balance(db, user.get_userID())
+        trans_history = get_trans_history(db, user.get_userID())
+        return render_template('portfolio.html',
+                    userName = user.get_userName(),
+                    cashBalance = user.get_cash_balance(), 
+                    portfolio_balance = portfolio_balance, 
+                    trans_history = trans_history)
     else:
         return "user name or password is invalid."
 
 
 @app.route('/login')
 def login():
+    db.reconnect_db()
     return render_template('login.html')
 
 @app.route('/trade') 
@@ -143,7 +166,8 @@ def confirm():
 
 @app.route('/logout')
 def logout():
-    
+    global user
+    user = User.User()
     return render_template('login.html')
 
 

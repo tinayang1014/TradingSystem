@@ -25,6 +25,9 @@ class User:
     def get_userID(self):
         return self.__id
     
+    def get_cash_balance(self):
+        return self.__cash_balance
+    
     def set_userID(self, db):
         sql = "select user_id from user where login=\'%s\'" % (self.__userName)
         result = db.get_data(sql)
