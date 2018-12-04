@@ -26,6 +26,7 @@ user = User.User()
 # refresh_price = ()
 ####################################
 ##### Comment Out Before Run #######
+<<<<<<< HEAD
 # @app.before_first_request
 # def activate_job():
 #     # print("in activate_job")
@@ -42,6 +43,17 @@ user = User.User()
 #     for i in ["BTC-USD", "LTC-USD", "ETH-USD"]:
 #         thread = Thread(target=run_job, args=(i,))
 #         thread.start()
+=======
+@app.before_first_request
+def activate_job():
+    # print("in activate_job")
+    def run_job(stock):
+        s = Socket.Socket(stock)
+
+    for i in ["BTC-USD", "LTC-USD", "ETH-USD"]:
+        thread = Thread(target=run_job, args=(i,))
+        thread.start()
+>>>>>>> 43c11f01dfb20f6b4f1d0aac75e1d4011050277c
 
 ####################################
 
@@ -63,8 +75,11 @@ newest_currency_price = {1:0, 2:0, 3:0}
 
 @app.route('/')
 def main():
+<<<<<<< HEAD
     # sym = db.get_data("select * from symbol")
     # db.close()
+=======
+>>>>>>> 43c11f01dfb20f6b4f1d0aac75e1d4011050277c
     return render_template('index.html', updated_price = newest_currency_price)
 
 
@@ -101,21 +116,21 @@ def userLogIn():
 def login():
     return render_template('login.html')
 
-@app.route('/trade', methods = ['GET','POST']) 
+@app.route('/trade') 
 def trade():
     global newest_currency_price 
     def update_currency():
         global newest_currency_price 
         while True:
-            print("trade: update currency")
+            # print("trade: update currency")
             newest_currency_price = get_updated_price(newest_currency_price)
-            print(newest_currency_price)
+            # print(newest_currency_price)
             sleep(30)
     
     thread1 = Thread(target=update_currency)
     thread1.start()
 
-    return render_template('trade.html', updated_price = newest_currency_price)
+    return render_template('trade.html',userName = user.get_userName(), updated_price = newest_currency_price)
 
 @app.route('/bitcoin')
 def bitcoin():
@@ -125,12 +140,18 @@ def bitcoin():
 def order():
     # 1.BTC 2.LTC 3.ETH
     currency = int(request.form['itemOrdered'])
+    print("order currency id",currency)
     # 1.sell 2.buy
     side = int(request.form['saleorbuy'])
     quant = int(request.form['orderQty'])
     timestamp = datetime.datetime.now()
-    user.insert_tracation(db, currency, side, quant, timestamp)
-    return "order success"
+    if user.insert_transaction(db, currency, side, quant, timestamp):
+        sql = "select symbol from symbol where currency_id = %s;"%(currency)
+        sym = db.get_data(sql)[0][0]
+        price = (user.get_last_trans()).get_display_price()
+        return render_template('confirm.html', sym = sym, qty = quant, price = price)
+    else:
+        return render_template('sorry.html')
 
 @app.route('/portfolio')
 def protfoilo():
@@ -150,7 +171,7 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.run(threaded = True, debug = True)
+    app.run(threaded = True)
     # t = Thread(target=Socket.Socket, args=('BTC-USD'))
     # t.start()
     # socketio.run(app, debug=True)

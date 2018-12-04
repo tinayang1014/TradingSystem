@@ -85,14 +85,5 @@ class Socket:
 
 # if __name__ == "__main__":
 #     s = Socket("BTC-USD")
-import pytz, dateutil.parser
-import datetime
 
-utctime = dateutil.parser.parse("2010-05-08T23:41:54.000Z")
-a="2018-11-19T20:29:20.550000Z"
-b=datetime.datetime(a)
-date_time_obj = datetime.datetime.strptime(a, '%Y-%m-%d%H:%M:%S')
-date_object = dateutil.parser.parse(a)
-
-print(type(utctime))
 
