@@ -75,6 +75,7 @@ def signUp():
 
 @app.route('/userCreate', methods = ['POST'])
 def userCreate():
+    user.reset_user()
     userName = request.form['Create_userName']
     password = request.form['Create_password']
 
@@ -154,7 +155,13 @@ def order():
 
 @app.route('/portfolio')
 def protfoilo():
-    return render_template('portfolio.html')
+    portfolio_balance = get_portfolio_balance(db, user.get_userID())
+    trans_history = get_trans_history(db, user.get_userID())
+    return render_template('portfolio.html',
+                    userName = user.get_userName(),
+                    cashBalance = user.get_cash_balance(), 
+                    portfolio_balance = portfolio_balance, 
+                    trans_history = trans_history)
 
 @app.route('/sorry')
 def sorry():
@@ -166,8 +173,6 @@ def confirm():
 
 @app.route('/logout')
 def logout():
-    global user
-    user = User.User()
     return render_template('login.html')
 
 
