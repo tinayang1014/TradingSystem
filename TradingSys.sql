@@ -99,6 +99,7 @@ use TradingSys;
 -- where currency_id = 1 and time_stamp = 
 -- (select max(time_stamp) from price where currency_id = 1 and time_stamp> '2018-12-03 16:36:54');
 
-select * from transaction;
--- select * from portfolio;
--- select * from user;
+-- select * from transaction;
+select s.symbol, t.type, t.quant, t.price, t.timestamp, t.trans_rpl from transaction as t join symbol as s on t.currency_id = s.currency_id where t.user_id = 2;
+
+-- select s.symbol, p.quant, p.vwap, p.rpl from portfolio as p join symbol as s on p.currency_id = s.currency_id where p.user_id = 2;
