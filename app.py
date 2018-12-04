@@ -26,23 +26,16 @@ user = User.User()
 # refresh_price = ()
 ####################################
 ##### Comment Out Before Run #######
-# @app.before_first_request
-# def activate_job():
-#     # print("in activate_job")
-#     def run_job(stock):
-#         s = Socket.Socket(stock)
-#         # refresh_price = s.refresh_web_price()
-#         # print(refresh_price)
-#         # while True:
-#         #     s = Socket.Socket(stock)
-#             # refresh_price = s.refresh_web_price()
-#             # print(refresh_price)
-#             # time.sleep(30)
+@app.before_first_request
+def activate_job():
+    # print("in activate_job")
+    def run_job(stock):
+        s = Socket.Socket(stock)
 
-#     for i in ["BTC-USD", "LTC-USD", "ETH-USD"]:
-#         thread = Thread(target=run_job, args=(i,))
-#         thread.start()
-
+    for i in ["BTC-USD", "LTC-USD", "ETH-USD"]:
+        thread = Thread(target=run_job, args=(i,))
+        thread.start()
+        
 ####################################
 
 
@@ -63,8 +56,6 @@ newest_currency_price = {1:0, 2:0, 3:0}
 
 @app.route('/')
 def main():
-    # sym = db.get_data("select * from symbol")
-    # db.close()
     return render_template('index.html', updated_price = newest_currency_price)
 
 
@@ -141,6 +132,7 @@ def order():
 @app.route('/portfolio')
 def protfoilo():
     return render_template('portfolio.html')
+
 @app.route('/sorry')
 def sorry():
     return render_template('sorry.html')
