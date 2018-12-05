@@ -230,12 +230,20 @@ def protfoilo():
     thread1 = Thread(target=update_currency)
     thread1.start()
 
+    symbol=[]
+    equity=[]
+    for i in portfolio_balance:
+        symbol.append(i[1])
+        equity.append(i[2]*i[3])
+
+
     return render_template('portfolio.html',
                     userName = user.get_userName(),
                     cashBalance = user.get_cash_balance(), 
                     portfolio_balance = portfolio_balance, 
                     trans_history = trans_history,
-                    updated_price = newest_currency_price)
+                    updated_price = newest_currency_price,
+                    set=zip(symbol,equity))
 
 @app.route('/sorry')
 def sorry():
