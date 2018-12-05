@@ -24,6 +24,7 @@ class Socket:
         asyncio.get_event_loop().run_until_complete(self.start_gdax_websocket())
     
     def get_currency_id(self):
+        self.db.reconnect_db()
         currency_id = self.db.get_data("select currency_id from symbol where symbol = \'%s\';" % (self.stock))
         # print(currency_id[0][0])
         # print(type(currency_id[0][0]))
@@ -51,13 +52,13 @@ class Socket:
     
     
     def insert_price(self, new):
-        # self.db.reconnect_db()
+        self.db.reconnect_db()
         self.__value[new[0]] = new
         colName = 'currency_id, time_stamp, price'
         # print("insert_price", self.__value)
         self.db.insert_data('price', colName, new)
         print("insert price success", self.refresh_web_price(new))
-        # self.db.close()
+        self.db.close()
 
     def refresh_web_price(self, new):
         return (new[0], new[2])
