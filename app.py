@@ -50,7 +50,7 @@ def get_updated_price(newest_currency_price):
     return newest_currency_price
 
 def get_portfolio_balance(db, user_id):
-    sql = "select s.symbol, p.quant, p.vwap, p.rpl from portfolio as p join symbol as s on p.currency_id = s.currency_id where p.user_id = %s;" % (user_id)
+    sql = "select s.currency_id,s.symbol, p.quant, p.vwap, p.rpl from portfolio as p join symbol as s on p.currency_id = s.currency_id where p.user_id = %s;" % (user_id)
     result = db.get_data(sql)
     return result
 

@@ -75,10 +75,13 @@
       <tbody>
         {% for c in portfolio_balance %}
         <tr>
-          {{for i in portfolio_balance}}
-          <td>{{i[0]}}</td>
-          <td>{{i[1]}}</td>
-          <td>{{i[2]}}</td>
+          <td>{{c[1]}}</td>
+          <td>{{c[2]}}</td>
+          <td>{{c[3]}}</td>
+          <td>{{updated_price[c[0]]*c[2]}}</td>
+          <td>{{updated_price[c[0]]*c[2]-c[2]*c[3]}}</td>
+          <td>{{c[4]}}</td>
+
         </tr>
         {% endfor %}
       </tbody>
