@@ -72,30 +72,15 @@
       </thead>
       <tbody>
         <tr>
-          {{portfolio_balance}}
-          <td>BTC</td>
-          <td>aaa</td>
-          <td>xxx</td>
-          <td>xxx</td>
-          <td>xxx</td>
-          <td>xxx</td>
-        </tr>
-        <tr>
-          <td>LTC</td>
-          <td>xxx</td>
-          <td>xxx</td>
-          <td>xxx</td>
+          {{for i in portfolio_balance}}
+          <td>{{i[0]}}</td>
+          <td>{{i[1]}}</td>
+          <td>{{i[2]}}</td>
+          <td>{{updated_price[0]*i[1]}}</td>
           <td>xxx</td>
           <td>xxx</td>
         </tr>
-        <tr>
-          <td>ETH</td>
-          <td>xxx</td>
-          <td>xxx</td>
-          <td>xxx</td>
-          <td>xxx</td>
-          <td>xxx</td>
-        </tr>
+       
       </tbody>
     </table>
 
@@ -170,6 +155,8 @@
       <div class="wrapper">
         <div id="chart"></div>
         <script>
+         
+            
             function getData() {
                 return Math.random();
             }

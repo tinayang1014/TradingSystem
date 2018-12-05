@@ -86,11 +86,23 @@ def userCreate():
     else:
         portfolio_balance = get_portfolio_balance(db, user.get_userID())
         trans_history = get_trans_history(db, user.get_userID())
+        global newest_currency_price 
+        def update_currency():
+            global newest_currency_price 
+            while True:
+                # print("trade: update currency")
+                newest_currency_price = get_updated_price(newest_currency_price)
+                # print(newest_currency_price)
+                sleep(30)
+    
+        thread1 = Thread(target=update_currency)
+        thread1.start()
         return render_template('portfolio.html', 
                     userName = user.get_userName(),
                     cashBalance = user.get_cash_balance(), 
                     portfolio_balance = portfolio_balance, 
-                    trans_history = trans_history)
+                    trans_history = trans_history,
+                    updated_price=newest_currency_price )
 
 @app.route('/userLogIn', methods = ['POST'])
 def userLogIn():
