@@ -101,13 +101,20 @@
         
         // Draw the chart and set the chart values
         function drawChart() {
-          var data = google.visualization.arrayToDataTable([
-          ['Cryto', 'Holdings'],
-          ['BTC', 8],
-          ['LTC', 2],
-          ['ETH', 4],
+        //   var data = google.visualization.arrayToDataTable([
+        //   ['Cryto', 'Holdings'],
+        //   ['BTC', 8],
+        //   ['LTC', 2],
+        //   ['ETH', 4],
 
-        ]);
+        // ]);
+          var data ={
+            values:[{% for c in portfolio_balance %}
+             '{{c[2]*c[3]}}',
+            {% endfor %}],
+            legends:['BTC','ETH','LTH']
+                      };
+
         
           // Optional; add a title and set the width and height of the chart
           var options = {'title':'Equity Distribution', 'width':550, 'height':400};
@@ -115,7 +122,7 @@
           // Display the chart inside the <div> element with id="piechart"
           var chart = new google.visualization.PieChart(document.getElementById('piechart'));
           chart.draw(data, options);
-        }
+          }
         </script>
       </div>
 
@@ -159,11 +166,11 @@
         <script>
          
             
-            function getData() {
-                return Math.random();
-            }
+            // function getData() {
+            //     return Math.random();
+            // }
             Plotly.plot('chart', [{
-                y: [getData()],
+                y: [],
                 type: 'line'
             }]);
 

@@ -100,8 +100,9 @@ def userCreate():
     if not res:
         return render_template('signUp.html')
     else:
-        portfolio_balance = get_portfolio_balance(db, user.get_userID())
-        trans_history = get_trans_history(db, user.get_userID())
+        # portfolio_balance = get_portfolio_balance(db, user.get_userID())
+        # trans_history = get_trans_history(db, user.get_userID())
+
         # thread_refresh_currency_price()
 
         # global newest_currency_price 
@@ -115,14 +116,16 @@ def userCreate():
         
         # thread1 = Thread(target=update_currency)
         # thread1.start()
-        newest_currency_price = {1:0, 2:0, 3:0}
-        newest_currency_price = get_updated_price(newest_currency_price)
-        return render_template('portfolio.html', 
-                    userName = user.get_userName(),
-                    cashBalance = user.get_cash_balance(), 
-                    portfolio_balance = portfolio_balance, 
-                    trans_history = trans_history,
-                    updated_price = newest_currency_price)
+        # newest_currency_price = {1:0, 2:0, 3:0}
+        # newest_currency_price = get_updated_price(newest_currency_price)
+        return render_template('userindex.html', 
+                    userName = user.get_userName()
+                    # ,
+                    # cashBalance = user.get_cash_balance(), 
+                    # portfolio_balance = portfolio_balance, 
+                    # trans_history = trans_history,
+                    # updated_price = newest_currency_price
+                    )
 
 @app.route('/userLogIn', methods = ['POST'])
 def userLogIn():
@@ -131,31 +134,32 @@ def userLogIn():
     # Check credentail
     user.set_credential(userName, password)
     if user.verify_user(db):
-        portfolio_balance = get_portfolio_balance(db, user.get_userID())
-        trans_history = get_trans_history(db, user.get_userID())
+        # portfolio_balance = get_portfolio_balance(db, user.get_userID())
+        # trans_history = get_trans_history(db, user.get_userID())
         
         # thread_refresh_currency_price()
 
-        global newest_currency_price 
-        def update_currency():
-            global newest_currency_price 
-            while True:
-                # print("trade: update currency")
-                newest_currency_price = get_updated_price(newest_currency_price)
-                # print(newest_currency_price)
-                sleep(30)
+        # global newest_currency_price 
+        # def update_currency():
+        #     global newest_currency_price 
+        #     while True:
+        #         # print("trade: update currency")
+        #         newest_currency_price = get_updated_price(newest_currency_price)
+        #         # print(newest_currency_price)
+        #         sleep(30)
         
-        thread1 = Thread(target=update_currency)
-        thread1.start()
+        # thread1 = Thread(target=update_currency)
+        # thread1.start()
 
         # newest_currency_price = {1:0, 2:0, 3:0}
         # newest_currency_price = get_updated_price(newest_currency_price)
-        return render_template('portfolio.html',
+        return render_template('userindex.html',
                     userName = user.get_userName(),
-                    cashBalance = user.get_cash_balance(), 
-                    portfolio_balance = portfolio_balance, 
-                    trans_history = trans_history, 
-                    updated_price = newest_currency_price)
+                    # cashBalance = user.get_cash_balance(), 
+                    # portfolio_balance = portfolio_balance, 
+                    # trans_history = trans_history, 
+                    # updated_price = newest_currency_price
+                    )
     else:
         return "user name or password is invalid."
 
