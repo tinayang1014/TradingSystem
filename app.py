@@ -22,6 +22,9 @@ app = Flask(__name__)
 
 db = Database.Database()
 user = User.User()
+# Dictionary with latest currency price
+# 1.BTC 2.LTC 3.ETH
+newest_currency_price = {1:0, 2:0, 3:0}
 
 # refresh_price = ()
 ####################################
@@ -31,6 +34,7 @@ def activate_job():
     # print("in activate_job")
     def run_job(stock):
         s = Socket.Socket(stock)
+        print("app: ", s.get_current_price())
 
     for i in ["BTC-USD", "LTC-USD", "ETH-USD"]:
         thread = Thread(target=run_job, args=(i,))
@@ -59,22 +63,20 @@ def get_trans_history(db, user_id):
     result = db.get_data(sql)
     return result
 
-def thread_refresh_currency_price():
-    global newest_currency_price 
-    def update_currency():
-        global newest_currency_price 
-        while True:
-            # print("trade: update currency")
-            newest_currency_price = get_updated_price(newest_currency_price)
-            # print(newest_currency_price)
-            sleep(30)
+# def thread_refresh_currency_price():
+#     global newest_currency_price 
+#     def update_currency():
+#         global newest_currency_price 
+#         while True:
+#             # print("trade: update currency")
+#             newest_currency_price = get_updated_price(newest_currency_price)
+#             # print(newest_currency_price)
+#             sleep(30)
     
-    thread1 = Thread(target=update_currency)
-    thread1.start()
+#     thread1 = Thread(target=update_currency)
+#     thread1.start()
 
-# Dictionary with latest currency price
-# 1.BTC 2.LTC 3.ETH
-newest_currency_price = {1:0, 2:0, 3:0}
+
 
 @app.route('/')
 def main():
@@ -100,7 +102,21 @@ def userCreate():
     else:
         portfolio_balance = get_portfolio_balance(db, user.get_userID())
         trans_history = get_trans_history(db, user.get_userID())
-        thread_refresh_currency_price()
+        # thread_refresh_currency_price()
+
+        # global newest_currency_price 
+        # def update_currency():
+        #     global newest_currency_price 
+        #     while True:
+        #         # print("trade: update currency")
+        #         newest_currency_price = get_updated_price(newest_currency_price)
+        #         # print(newest_currency_price)
+        #         sleep(30)
+        
+        # thread1 = Thread(target=update_currency)
+        # thread1.start()
+        newest_currency_price = {1:0, 2:0, 3:0}
+        newest_currency_price = get_updated_price(newest_currency_price)
         return render_template('portfolio.html', 
                     userName = user.get_userName(),
                     cashBalance = user.get_cash_balance(), 
@@ -117,7 +133,23 @@ def userLogIn():
     if user.verify_user(db):
         portfolio_balance = get_portfolio_balance(db, user.get_userID())
         trans_history = get_trans_history(db, user.get_userID())
-        thread_refresh_currency_price()
+        
+        # thread_refresh_currency_price()
+
+        global newest_currency_price 
+        def update_currency():
+            global newest_currency_price 
+            while True:
+                # print("trade: update currency")
+                newest_currency_price = get_updated_price(newest_currency_price)
+                # print(newest_currency_price)
+                sleep(30)
+        
+        thread1 = Thread(target=update_currency)
+        thread1.start()
+
+        # newest_currency_price = {1:0, 2:0, 3:0}
+        # newest_currency_price = get_updated_price(newest_currency_price)
         return render_template('portfolio.html',
                     userName = user.get_userName(),
                     cashBalance = user.get_cash_balance(), 
@@ -135,18 +167,22 @@ def login():
 
 @app.route('/trade') 
 def trade():
-    # global newest_currency_price 
-    # def update_currency():
-    #     global newest_currency_price 
-    #     while True:
-    #         # print("trade: update currency")
-    #         newest_currency_price = get_updated_price(newest_currency_price)
-    #         # print(newest_currency_price)
-    #         sleep(30)
+    global newest_currency_price 
+    def update_currency():
+        global newest_currency_price 
+        while True:
+            # print("trade: update currency")
+            newest_currency_price = get_updated_price(newest_currency_price)
+            # print(newest_currency_price)
+            sleep(30)
     
-    # thread1 = Thread(target=update_currency)
-    # thread1.start()
-    thread_refresh_currency_price()
+    thread1 = Thread(target=update_currency)
+    thread1.start()
+    
+    # thread_refresh_currency_price()
+    # newest_currency_price = {1:0, 2:0, 3:0}
+    # newest_currency_price = get_updated_price(newest_currency_price)
+    print("in trade, ", newest_currency_price)
 
     return render_template('trade.html',userName = user.get_userName(), updated_price = newest_currency_price)
 
@@ -175,7 +211,21 @@ def order():
 def protfoilo():
     portfolio_balance = get_portfolio_balance(db, user.get_userID())
     trans_history = get_trans_history(db, user.get_userID())
-    thread_refresh_currency_price()
+    # thread_refresh_currency_price()
+    # global newest_currency_price 
+    # newest_currency_price = get_updated_price(newest_currency_price)
+
+    global newest_currency_price 
+    def update_currency():
+        global newest_currency_price 
+        while True:
+            # print("trade: update currency")
+            newest_currency_price = get_updated_price(newest_currency_price)
+            # print(newest_currency_price)
+            sleep(30)
+    thread1 = Thread(target=update_currency)
+    thread1.start()
+
     return render_template('portfolio.html',
                     userName = user.get_userName(),
                     cashBalance = user.get_cash_balance(), 

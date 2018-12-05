@@ -51,14 +51,19 @@ class Socket:
     
     
     def insert_price(self, new):
+        # self.db.reconnect_db()
         self.__value[new[0]] = new
         colName = 'currency_id, time_stamp, price'
         # print("insert_price", self.__value)
         self.db.insert_data('price', colName, new)
         print("insert price success", self.refresh_web_price(new))
+        # self.db.close()
 
     def refresh_web_price(self, new):
         return (new[0], new[2])
+
+    def get_current_price(self):
+        return self.__value
 
     async def start_gdax_websocket(self):
         # print("in start gdax websocket")
