@@ -59,6 +59,19 @@ def get_trans_history(db, user_id):
     result = db.get_data(sql)
     return result
 
+def thread_refresh_currency_price():
+    global newest_currency_price 
+    def update_currency():
+        global newest_currency_price 
+        while True:
+            # print("trade: update currency")
+            newest_currency_price = get_updated_price(newest_currency_price)
+            # print(newest_currency_price)
+            sleep(30)
+    
+    thread1 = Thread(target=update_currency)
+    thread1.start()
+
 # Dictionary with latest currency price
 # 1.BTC 2.LTC 3.ETH
 newest_currency_price = {1:0, 2:0, 3:0}
@@ -75,6 +88,7 @@ def signUp():
 
 @app.route('/userCreate', methods = ['POST'])
 def userCreate():
+    user.reset_user()
     userName = request.form['Create_userName']
     password = request.form['Create_password']
 
@@ -86,23 +100,13 @@ def userCreate():
     else:
         portfolio_balance = get_portfolio_balance(db, user.get_userID())
         trans_history = get_trans_history(db, user.get_userID())
-        global newest_currency_price 
-        def update_currency():
-            global newest_currency_price 
-            while True:
-                # print("trade: update currency")
-                newest_currency_price = get_updated_price(newest_currency_price)
-                # print(newest_currency_price)
-                sleep(30)
-    
-        thread1 = Thread(target=update_currency)
-        thread1.start()
+        thread_refresh_currency_price()
         return render_template('portfolio.html', 
                     userName = user.get_userName(),
                     cashBalance = user.get_cash_balance(), 
                     portfolio_balance = portfolio_balance, 
                     trans_history = trans_history,
-                    updated_price=newest_currency_price )
+                    updated_price = newest_currency_price)
 
 @app.route('/userLogIn', methods = ['POST'])
 def userLogIn():
@@ -113,11 +117,13 @@ def userLogIn():
     if user.verify_user(db):
         portfolio_balance = get_portfolio_balance(db, user.get_userID())
         trans_history = get_trans_history(db, user.get_userID())
+        thread_refresh_currency_price()
         return render_template('portfolio.html',
                     userName = user.get_userName(),
                     cashBalance = user.get_cash_balance(), 
                     portfolio_balance = portfolio_balance, 
-                    trans_history = trans_history)
+                    trans_history = trans_history, 
+                    updated_price = newest_currency_price)
     else:
         return "user name or password is invalid."
 
@@ -129,17 +135,18 @@ def login():
 
 @app.route('/trade') 
 def trade():
-    global newest_currency_price 
-    def update_currency():
-        global newest_currency_price 
-        while True:
-            # print("trade: update currency")
-            newest_currency_price = get_updated_price(newest_currency_price)
-            # print(newest_currency_price)
-            sleep(30)
+    # global newest_currency_price 
+    # def update_currency():
+    #     global newest_currency_price 
+    #     while True:
+    #         # print("trade: update currency")
+    #         newest_currency_price = get_updated_price(newest_currency_price)
+    #         # print(newest_currency_price)
+    #         sleep(30)
     
-    thread1 = Thread(target=update_currency)
-    thread1.start()
+    # thread1 = Thread(target=update_currency)
+    # thread1.start()
+    thread_refresh_currency_price()
 
     return render_template('trade.html',userName = user.get_userName(), updated_price = newest_currency_price)
 
@@ -166,7 +173,15 @@ def order():
 
 @app.route('/portfolio')
 def protfoilo():
-    return render_template('portfolio.html')
+    portfolio_balance = get_portfolio_balance(db, user.get_userID())
+    trans_history = get_trans_history(db, user.get_userID())
+    thread_refresh_currency_price()
+    return render_template('portfolio.html',
+                    userName = user.get_userName(),
+                    cashBalance = user.get_cash_balance(), 
+                    portfolio_balance = portfolio_balance, 
+                    trans_history = trans_history,
+                    updated_price = newest_currency_price)
 
 @app.route('/sorry')
 def sorry():
@@ -178,8 +193,6 @@ def confirm():
 
 @app.route('/logout')
 def logout():
-    global user
-    user = User.User()
     return render_template('login.html')
 
 

@@ -39,6 +39,9 @@ class User:
 
     def get_last_trans(self):
         return self.__transaction[-1]
+    
+    def reset_user(self):
+        self.__init__()
 
     def set_portfolio(self, db):
         sql = "select currency_id, quant, vwap, rpl from portfolio where user_id = %s;" % (self.__id)
@@ -79,7 +82,6 @@ class User:
             colName = "login, password, cash_balance"
             value = (self.__userName, self.__password, self.__cash_balance)
             db.insert_data(table, colName, value)
-            print("create user success")
             self.set_userID(db)
             self.set_portfolio(db)
             return True

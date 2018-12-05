@@ -57,9 +57,11 @@
     <br>
     <br>
     Cash Balance: <table>{{cashBalance}}</table>
+    <br>
     <table class="table table-hover">
-      Current Balence: 
+      Currency Balence: 
       <!-- example: [('ETH-USD', 2, 107.5, 108.738), ('BTC-USD', 1, 3846.47, 3869.97), ('LTC-USD', 6, 30.6437, 30.452)] -->
+      {{updated_price}}
       <thead>
         <tr>
           <th>Symbol</th>
@@ -71,16 +73,14 @@
         </tr>
       </thead>
       <tbody>
+        {% for c in portfolio_balance %}
         <tr>
           {{for i in portfolio_balance}}
           <td>{{i[0]}}</td>
           <td>{{i[1]}}</td>
           <td>{{i[2]}}</td>
-          <td>{{updated_price[0]*i[1]}}</td>
-          <td>xxx</td>
-          <td>xxx</td>
         </tr>
-       
+        {% endfor %}
       </tbody>
     </table>
 
@@ -107,7 +107,7 @@
         ]);
         
           // Optional; add a title and set the width and height of the chart
-          var options = {'title':'My Average Day', 'width':550, 'height':400};
+          var options = {'title':'Equity Distribution', 'width':550, 'height':400};
         
           // Display the chart inside the <div> element with id="piechart"
           var chart = new google.visualization.PieChart(document.getElementById('piechart'));
@@ -125,25 +125,24 @@
     <table class = 'table table-hover'>
       Trading History:
       <!-- example: [('LTC-USD', 'Buy', 1, 30.73, datetime.datetime(2018, 12, 3, 18, 25, 42), None), ('BTC-USD', 'Sell', 1, 3857.98, datetime.datetime(2018, 12, 3, 18, 27, 56), 4.0), ('ETH-USD', 'Sell', 3, 107.85, datetime.datetime(2018, 12, 3, 18, 29, 16), 0.57), ('LTC-USD', 'Buy', 1, 30.37, datetime.datetime(2018, 12, 3, 19, 16, 30), None), ('LTC-USD', 'Buy', 1, 30.46, datetime.datetime(2018, 12, 3, 19, 21, 54), None)] -->
-      {{trans_history}}
       <thead>
         <tr>
             <th>Symbol</th>
+            <th>Side</th>
             <th>Qty</th>
             <th>Timestamp</th>
             <th>Cost</th>
-            <th>Mkt_Price</th>
             <th>RP/L</th>
         </tr>
       </thead>
-      {% for v in orders %}
+      {% for transaction in trans_history %}
       <tr>
-          <td>{{v[0]}}</td>
-          <td>{{v[1]}}</td>
-          <td>{{v[2]}}</td>
-          <td>{{v[3]}}</td>
-          <td>{{v[4]}}</td>
-          <td>{{v[5]}}</td>
+          <td>{{transaction[0]}}</td>
+          <td>{{transaction[1]}}</td>
+          <td>{{transaction[2]}}</td>
+          <td>{{transaction[4]}}</td>
+          <td>{{transaction[3]}}</td>
+          <td>{{transaction[5]}}</td>
       </tr>
       {% endfor %}
       </table>
