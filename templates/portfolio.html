@@ -20,7 +20,8 @@
     <!-- <script src = "jquery-4.1.3.js"></script> -->
     <!-- <script src="../static/js/plotly.min.js"></script>
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>  
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>  
 
    
   </head>
@@ -56,10 +57,10 @@
       <h3>Hello, {{ userName }} </h3>
 
      <br>
-      <h4>Cash Balance: {{cashBalance}}</h4>
+      <h4>Cash Balance: {{"%0.2f"|format(cashBalance)}}</h4>
     <br>
       <table class="table table-hover">
-      Currency Balence: 
+      <h4>Your Account Summary</h4>
       <!-- example: [('ETH-USD', 2, 107.5, 108.738), ('BTC-USD', 1, 3846.47, 3869.97), ('LTC-USD', 6, 30.6437, 30.452)] -->
       
       <thead>
@@ -88,7 +89,7 @@
     </table>
 
  
-    <div class="navbar"><span>Equity Distribution</span></div>
+    <span><h3>Equity Distribution</h3></span>
       <!-- <div class="wrapper">
         <div id="piechart"> -->
         <canvas id="chart" width="600" height="400"></canvas>
@@ -109,7 +110,7 @@
         //   ['ETH', 4],
 
         // ]); -->
-        <script>
+        <span><script>
           var pieData =[
             {% for symbol,equity,colors in set %}
             {
@@ -130,104 +131,90 @@
         
 
         </script>
-     
+        
+        <br>
+        <br>
+        <br>
+        <br>
+        <span><h3>Realized Profit/Loss</h3></span>
+      <div id="chartContainer" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
 
-    <table class = 'table table-hover'>
-      Trading History:
-      <!-- example: [('LTC-USD', 'Buy', 1, 30.73, datetime.datetime(2018, 12, 3, 18, 25, 42), None), ('BTC-USD', 'Sell', 1, 3857.98, datetime.datetime(2018, 12, 3, 18, 27, 56), 4.0), ('ETH-USD', 'Sell', 3, 107.85, datetime.datetime(2018, 12, 3, 18, 29, 16), 0.57), ('LTC-USD', 'Buy', 1, 30.37, datetime.datetime(2018, 12, 3, 19, 16, 30), None), ('LTC-USD', 'Buy', 1, 30.46, datetime.datetime(2018, 12, 3, 19, 21, 54), None)] -->
-      <thead>
-        <tr>
-            <th>Symbol</th>
-            <th>Side</th>
-            <th>Qty</th>
-            <th>Timestamp</th>
-            <th>Cost</th>
-            <th>RP/L</th>
-        </tr>
-      </thead>
-      {% for transaction in trans_history %}
-      <tr>
-          <td>{{transaction[0]}}</td>
-          <td>{{transaction[1]}}</td>
-          <td>{{transaction[2]}}</td>
-          <td>{{transaction[4]}}</td>
-          <td>{{transaction[3]}}</td>
-          <td>{{transaction[5]}}</td>
-      </tr>
-      {% endfor %}
-      </table>
-
-
-      
-
-      <div class="navbar"><span>NEED TO DO</span></div>
-      <canvas id="chart1" width="600" height="400"></canvas>
       
       <script>
-         var barData = {
-           labels : [{% for item in symbol %}
-           "{{item}}",
-           {% endfor %}],
-           datasets : [
-             {
-              fillColor: "rgba(151,187,205,0.2)",
-              strokeColor: "rgba(151,187,205,1)",
-              pointColor: "rgba(151,187,205,1)",
-              data : [{% for item in rpl %}
-                      {{item}},
-                    {% endfor %}]
-             }
-            ]
-          }
-
-          // options={
-          //   barpercentage:0.6,
-
-          // }
-              
-      
-        
-          var mychart = document.getElementById("chart1").getContext("2d");
- 
-          steps = 5
-          max = 100
-                
 
 
-   // draw bar chart
-        new Chart(mychart).Bar(barData, {            
-          scaleOverride: true,
-          scaleSteps: steps,
-          scaleStepWidth: Math.ceil(max / steps),
-          scaleStartValue: 0,
-          scaleShowVerticalLines: true,
-          scaleShowGridLines : true,
-          barShowStroke : false,
-          scaleShowLabels: true,
-          responsive:true,
-          scaleBeginAtZero:false,
-          // scaleZerostart: true,
-          barBeginAtOrigin: true,
-          barStartValue:0
-          });
+        window.onload = function () {
+
+        var chart = new CanvasJS.Chart("chartContainer", {
+	              animationEnabled: true,
+	                theme: "light2", // "light1", "light2", "dark1", "dark2"
+	                  // title:{
+	                	// text: "Realized Profit/Loss"
+	                  //     },
+	              axisY: {
+		              title: "RP/L"
+	                    },
+  	            data: [{        
+		              type: "column",  
+		              showInLegend: false, 
+		              // legendMarkerColor: "grey",
+                  // legendText: "currency",
+
+		              dataPoints: [
+                      {% for symbol, rpl in set2 %}      
+                        { y: {{rpl}}, label: "{{symbol}}" },
+                      {% endfor %}
+	
+		                    ]
+	            }]
+            });
+          chart.render();
+
+}
          
  
    
             
 
         </script>
+    <br>
+    <br>
+
+<table class = 'table table-hover'>
+    <h4>Trading History:</h4>
+    <!-- example: [('LTC-USD', 'Buy', 1, 30.73, datetime.datetime(2018, 12, 3, 18, 25, 42), None), ('BTC-USD', 'Sell', 1, 3857.98, datetime.datetime(2018, 12, 3, 18, 27, 56), 4.0), ('ETH-USD', 'Sell', 3, 107.85, datetime.datetime(2018, 12, 3, 18, 29, 16), 0.57), ('LTC-USD', 'Buy', 1, 30.37, datetime.datetime(2018, 12, 3, 19, 16, 30), None), ('LTC-USD', 'Buy', 1, 30.46, datetime.datetime(2018, 12, 3, 19, 21, 54), None)] -->
+    <thead>
+      <tr>
+          <th>Symbol</th>
+          <th>Side</th>
+          <th>Qty</th>
+          <th>Timestamp</th>
+          <th>Cost</th>
+          <th>RP/L</th>
+      </tr>
+    </thead>
+    {% for transaction in trans_history %}
+    <tr>
+        <td>{{transaction[0]}}</td>
+        <td>{{transaction[1]}}</td>
+        <td>{{transaction[2]}}</td>
+        <td>{{transaction[4]}}</td>
+        <td>{{transaction[3]}}</td>
+        <td>{{transaction[5]}}</td>
+    </tr>
+    {% endfor %}
+    </table>
 
       </div>
       
         
       
-      <figcaption class="figure-caption text-center">A caption for the above image.</figcaption>
       
         
 
 
       <footer class="footer">
-        <p>&copy; Company 2018</p>
+        <p>&copy;666 CryptoTrading  2018</p>
       </footer>
   </div>
   </div>
@@ -238,4 +225,5 @@
     <!-- <script type="text/javascript" src="js/mdb.min.js"></script> -->
   </body>
 </html>
+
 

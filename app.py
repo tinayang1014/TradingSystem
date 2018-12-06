@@ -206,9 +206,6 @@ def protfoilo():
         equity.append(round(i[2]*i[3],2))
         rpl.append(i[4])
     
-    maxrpl=max(rpl)
-    minrpl=min(rpl)
-    
 
 
     return render_template('portfolio.html',
@@ -218,10 +215,8 @@ def protfoilo():
                     trans_history = trans_history,
                     updated_price = newest_currency_price,
                     set=zip(symbol,equity,colors),
-                    rpl=rpl,
-                    symbol=symbol,
-                    maxrpl=maxrpl,
-                    minrpl=minrpl)
+                    set2=zip(symbol,rpl)
+                )
 
 @app.route('/sorry')
 def sorry():
