@@ -10,3 +10,5 @@ Before Run the web app, make sure to correct:
             Create multi-thread to be background thread of the web app
             Create basic frame of the web app
 
+2018.12.05 First Complete Version V1.0
+            
