@@ -5,7 +5,7 @@
 ###### Created: 20181111
 ###########################
 
-from flask import Flask, render_template, json, request
+from flask import Flask, render_template, json, request,Markup
 from random import random
 from time import sleep
 from threading import Thread, Event
@@ -195,12 +195,13 @@ def protfoilo():
     newest_currency_price = {1:0, 2:0, 3:0}
     for currency in newest_currency_price:
         newest_currency_price[currency] = get_single_currency_price(currency)
-
+    colors = [ "#F7464A", "#46BFBD", "#FDB45C" ]    
     symbol=[]
     equity=[]
+
     for i in portfolio_balance:
         symbol.append(i[1])
-        equity.append(i[2]*i[3])
+        equity.append(round(i[2]*i[3],2))
 
 
     return render_template('portfolio.html',
@@ -209,7 +210,7 @@ def protfoilo():
                     portfolio_balance = portfolio_balance, 
                     trans_history = trans_history,
                     updated_price = newest_currency_price,
-                    set=zip(symbol,equity))
+                    set=zip(symbol,equity,colors))
 
 @app.route('/sorry')
 def sorry():
