@@ -118,7 +118,7 @@ def userLogIn():
         return render_template('userindex.html',
                     userName = user.get_userName())
     else:
-        return "user name or password is invalid."
+        return render_template('login.html')
 
 
 @app.route('/login')
