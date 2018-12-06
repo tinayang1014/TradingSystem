@@ -35,9 +35,6 @@ use TradingSys;
 --     primary key(user_id)
 -- );
 
--- insert into user(login, password, cash_balance)
--- values ('guest', 'abc', 100000);
-
 
 -- create table transaction
 -- 	(transaction_id int NOT NULL auto_increment,
@@ -71,35 +68,26 @@ use TradingSys;
 -- from price
 -- where currency_id = 1);
 
-# check userName already in DB
--- select *
--- from transaction;
 
 -- TRUNCATE TABLE price;
 
-
--- select price 
--- from price 
--- where currency_id = 1 and time_stamp = 
--- (select max(time_stamp) from price where currency_id = 1 and time_stamp< '2018-12-03 12:00:00');
-
--- select * from price where currency_id=3;
-
+# Get the currency quanty with specfic user
 -- select quant from portfolio where user_id = 2 and currency_id = 1;
--- insert into portfolio (user_id, currency_id, quant) values (2, 1, 100);
 
+# Update user cash balance when make transaction
 -- UPDATE user
 -- SET cash_balance = 90000
 -- WHERE user_id = 2;
 
--- select * from portfolio where user_id = 2;
-
+# Get latest price in trading
 -- select price 
 -- from price 
 -- where currency_id = 1 and time_stamp = 
 -- (select max(time_stamp) from price where currency_id = 1 and time_stamp> '2018-12-03 16:36:54');
 
--- select * from transaction;
-select s.symbol, t.type, t.quant, t.price, t.timestamp, t.trans_rpl from transaction as t join symbol as s on t.currency_id = s.currency_id where t.user_id = 2;
+# Display on web
+-- select s.symbol, t.type, t.quant, t.price, t.timestamp, t.trans_rpl from transaction as t join symbol as s on t.currency_id = s.currency_id where t.user_id = 2;
 
 -- select s.symbol, p.quant, p.vwap, p.rpl from portfolio as p join symbol as s on p.currency_id = s.currency_id where p.user_id = 2;
+
+
