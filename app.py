@@ -199,10 +199,17 @@ def protfoilo():
     colors = [ "#F7464A", "#46BFBD", "#FDB45C" ]    
     symbol=[]
     equity=[]
+    rpl=[]
+    
 
     for i in portfolio_balance:
         symbol.append(i[1])
         equity.append(round(i[2]*i[3],2))
+        rpl.append(i[4])
+    
+    maxrpl=max(rpl)
+    minrpl=min(rpl)
+    
 
 
     return render_template('portfolio.html',
@@ -211,7 +218,11 @@ def protfoilo():
                     portfolio_balance = portfolio_balance, 
                     trans_history = trans_history,
                     updated_price = newest_currency_price,
-                    set=zip(symbol,equity,colors))
+                    set=zip(symbol,equity,colors),
+                    rpl=rpl,
+                    symbol=symbol,
+                    maxrpl=maxrpl,
+                    minrpl=minrpl)
 
 @app.route('/sorry')
 def sorry():
