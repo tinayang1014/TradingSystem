@@ -146,7 +146,6 @@ def trade():
     newest_currency_price = {1:0, 2:0, 3:0}
     for currency in newest_currency_price:
         newest_currency_price[currency] = get_single_currency_price(currency)
-    print("in trade, ", newest_currency_price)
 
     return render_template('trade.html',userName = user.get_userName(), updated_price = newest_currency_price)
 
