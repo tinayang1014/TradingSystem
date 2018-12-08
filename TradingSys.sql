@@ -91,3 +91,5 @@ use TradingSys;
 -- select s.symbol, p.quant, p.vwap, p.rpl from portfolio as p join symbol as s on p.currency_id = s.currency_id where p.user_id = 2;
 
 
+
+
