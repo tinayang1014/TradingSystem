@@ -64,6 +64,8 @@ def get_portfolio_balance(db, user_id):
 def get_trans_history(db, user_id):
     sql = "select s.symbol, t.type, t.quant, t.price, t.timestamp, t.trans_rpl from transaction as t join symbol as s on t.currency_id = s.currency_id where t.user_id = %s;" % (user_id)
     result = db.get_data(sql)
+    result = sorted(result, key=lambda x:x[4])
+    # print(result)
     return result
 
 # def thread_refresh_currency_price():

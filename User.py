@@ -12,7 +12,7 @@ class User:
         self.__password = ''
         self.__id = 0
         self.__transaction = []
-        self.__cash_balance = 100000
+        self.__cash_balance = 1000000
         self.__portfolio = {}
     
     def set_credential(self, userName, password):
