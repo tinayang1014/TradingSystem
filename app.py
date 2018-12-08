@@ -48,13 +48,13 @@ def get_single_currency_price(currency_id):
     return result[0][0]
 
 
-def get_updated_price(newest_currency_price):
-    sql = "select price from price where currency_id = %s and time_stamp = (select max(time_stamp) from price where currency_id = %s);"
-    for c in newest_currency_price:
-        price = db.get_data(sql%(c,c))
-        # price: list of tuple
-        newest_currency_price[c] = price[0][0]
-    return newest_currency_price
+# def get_updated_price(newest_currency_price):
+#     sql = "select price from price where currency_id = %s and time_stamp = (select max(time_stamp) from price where currency_id = %s);"
+#     for c in newest_currency_price:
+#         price = db.get_data(sql%(c,c))
+#         # price: list of tuple
+#         newest_currency_price[c] = price[0][0]
+#     return newest_currency_price
 
 def get_portfolio_balance(db, user_id):
     sql = "select s.currency_id,s.symbol, p.quant, p.vwap, p.rpl from portfolio as p join symbol as s on p.currency_id = s.currency_id where p.user_id = %s;" % (user_id)
