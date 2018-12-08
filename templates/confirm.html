@@ -60,7 +60,7 @@
                 <td>{{ sym }}</td>
                 <td>{{ qty }}</td>
                 <td>{{ price }}</td>
-                <td>{{ qty*price }}</td>
+                <td>{{ "%0.2f"|format(qty*price)}}</td>
               </tr>
             </tbody>
           </table>
